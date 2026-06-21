@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROMEO ADMIN | لوحة الإدارة التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #161b26;
+            --primary: #e5b80b;
+            --danger: #ff4d4d;
+            --success: #2ecc71;
+            --text: #ffffff;
+            --text-dim: #8e94a5;
+            --glass: rgba(255, 255, 255, 0.03);
+            --gold-glow: 0 0 15px rgba(229,184,11,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .view { display: none; animation: slideUp 0.4s ease forwards; padding: 20px; }
+        .view.active { display: block; }
+
+        /* --- Login Screen --- */
+        .login-container { max-width: 400px; margin: 100px auto; text-align: center; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--glass); box-shadow: var(--gold-glow); }
+        .login-container i { font-size: 50px; color: var(--primary); margin-bottom: 20px; }
+        input, select, textarea { 
+            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--glass);
+            background: #05070a; color: white; outline: none; font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        button { 
+            width: 100%; padding: 12px; border-radius: 10px; border: none; cursor: pointer; 
+            font-weight: 700; transition: 0.3s; font-size: 14px;
+        }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(229,184,11,0.4); }
+
+        /* --- Dashboard Header --- */
+        header { 
+            background: var(--card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass); position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-weight: 900; font-size: 18px; letter-spacing: 1px; }
+        .logo span { color: var(--primary); }
+        
+        /* --- 3 الأزرار السحرية المطلوبة --- */
+        .admin-nav-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+        .tab-btn { background: var(--card); color: white; border: 1px solid var(--glass); padding: 15px; border-radius: 12px; font-weight: 700; font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; }
+        .tab-btn i { font-size: 20px; color: var(--primary); }
+        .tab-btn:hover, .tab-btn.active { background: var(--primary); color: black; box-shadow: var(--gold-glow); transform: translateY(-2px); }
+        .tab-btn:hover i, .tab-btn.active i { color: black; }
+
+        /* --- Data Container / Tables --- */
+        .section-box { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--glass); margin-bottom: 25px; }
+        .box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--glass); padding-bottom: 10px; }
+        .box-header h3 { font-size: 16px; display: flex; align-items: center; gap: 8px; }
+        
+        .add-small-btn { width: auto; padding: 6px 15px; background: var(--success); color: white; font-size: 12px; border-radius: 6px; }
+
+        /* --- List Cards --- */
+        .data-item-card {
+            background: rgba(255,255,255,0.01); padding: 15px; border-radius: 12px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass);
+        }
+        .item-info h4 { font-size: 14px; margin-bottom: 4px; }
+        .item-info p { font-size: 12px; color: var(--text-dim); }
+        
+        .actions { display: flex; gap: 8px; }
+        .action-btn { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
+        .edit-btn { background: var(--primary); color: black; }
+        .del-btn { background: var(--danger); color: white; }
+
+        /* --- Form View --- */
+        .form-group { margin-bottom: 20px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 15px; border: 1px solid var(--glass); }
+        .form-group h3 { font-size: 14px; color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid var(--glass); padding-bottom: 5px; }
+        label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 5px; }
+
+        /* --- Loader --- */
+        .loader { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--primary); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .admin-nav-tabs { grid-template-columns: 1fr; gap: 10px; }
+            .data-item-card { flex-direction: column; gap: 12px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader" id="loader"><div class="spinner"></div></div>
+
+    <!-- 1. واجهة تسجيل الدخول ببيانات GitHub -->
+    <div id="loginView" class="view active">
+        <div class="login-container">
+            <i class="fab fa-github"></i>
+            <h2>ROMEO ADMIN 🛠️</h2>
+            <p style="color:var(--text-dim); font-size: 12px; margin-bottom: 20px;">لوحة الإدارة الفنية والربط مع سيرفر السحابة</p>
+            <input type="password" id="ghToken" placeholder="GitHub Personal Access Token (جلب التوكن)">
+            <input type="text" id="ghRepo" placeholder="username/repository (اسم المستودع)">
+            <button class="btn-primary" onclick="loginToDatabase()">دخول والاتصال بالسيستم</button>
+        </div>
+    </div>
+
+    <!-- 2. لوحة التحكم الرئيسية بعد الدخول -->
+    <div id="dashboardView" class="view">
+        <header>
+            <div class="logo">ROMEO <span>SYSTEM</span></div>
+            <button onclick="logout()" style="width:auto; padding:5px 15px; background:none; color:var(--danger); border:1px solid var(--danger);">تسجيل خروج</button>
+        </header>
+
+        <!-- الأزرار الثلاثة المطلوبة للتبديل بين أقسام الإدارة -->
+        <div class="admin-nav-tabs">
+            <div class="tab-btn active" id="tab-codes" onclick="switchTab('codes')">
+                <i class="fa-solid fa-key"></i>
+                <span>أكواد الطلاب</span>
+            </div>
+            <div class="tab-btn" id="tab-videos" onclick="switchTab('videos')">
+                <i class="fa-solid fa-video"></i>
+                <span>رفع وإدارة الفيديوهات</span>
+            </div>
+            <div class="tab-btn" id="tab-teachers" onclick="switchTab('teachers')">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <span>إضافة مدرسين جدد</span>
+            </div>
+        </div>
+
+        <!-- قسم إدارة أكواد الطلاب -->
+        <div id="section-codes" class="sub-section">
+            <div class="section-box">
+                <div class="box-header">
+                    <h3><i class="fa-solid fa-shield-halved"></i> منظومة أكواد تفعيل السيرفرات</h3>
+                    <button class="add-small-btn" onclick="openForm('code')">➕ توليد كود جديد</button>
+                </div>
+                <div id="codesListContainer"></div>
+            </div>
+        </div>
+
+        <!-- قسم إدارة ورفع الفيديوهات -->
+        <div id="section-videos" class="sub-section" style="display:none;">
+            <div class="section-box">
+                <div class="box-header">
+                    <h3><i class="fa-solid fa-clapperboard"></i> المحاضرات وحصص البث المرفوعة</h3>
+                    <button class="add-small-btn" onclick="openForm('video')">➕ إضافة فيديو/محاضرة</button>
+                </div>
+                <div id="videosListContainer"></div>
+            </div>
+        </div>
+
+        <!-- قسم إدارة إضافة المدرسين -->
+        <div id="section-teachers" class="sub-section" style="display:none;">
+            <div class="section-box">
+                <div class="box-header">
+                    <h3><i class="fa-solid fa-users-gear"></i> هيئة التدريس والمواد الحالية</h3>
+                    <button class="add-small-btn" onclick="openForm('teacher')">➕ إضافة مدرس جديد</button>
+                </div>
+                <div id="teachersListContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. واجهات الإدخال التفاعلية (الفورم) -->
+    <div id="formView" class="view">
+        <header>
+            <div onclick="showView('dashboardView')" style="cursor:pointer;"><i class="fas fa-arrow-right"></i> رجوع للوحة</div>
+            <div class="logo">إدارة <span>البيانات والمزامنة</span></div>
+        </header>
+
+        <div style="max-width: 600px; margin: 20px auto;">
+            <input type="hidden" id="entryType">
+            <input type="hidden" id="entryId">
+            
+            <!-- فورم الكود المولد -->
+            <div id="form-code-group" class="form-type-group" style="display:none;">
+                <div class="form-group">
+                    <h3>🔑 توليد كود طالب</h3>
+                    <label>رقم هاتف الطالب المسجل بدقة</label>
+                    <input type="tel" id="cPhone" placeholder="مثال: 01286716976" oninput="autoGenerateCodeToken()">
+                    <label>كود التفعيل الذكي المولد (يتم إنشاؤه تلقائياً)</label>
+                    <input type="text" id="cToken" placeholder="MSRK-XXXX-XXXX" readonly style="letter-spacing:1px; font-family:monospace; color:var(--primary);">
+                </div>
+            </div>
+
+            <!-- فورم الفيديو والمحاضرة -->
+            <div id="form-video-group" class="form-type-group" style="display:none;">
+                <div class="form-group">
+                    <h3>🎬 بيانات المحاضرة</h3>
+                    <label>عنوان الفيديو / رقم المحاضرة</label>
+                    <input type="text" id="vTitle" placeholder="مثال: المحاضرة الأولى - تأسيس النحو">
+                    <label>رابط البث الآمن (HLS .m3u8 أو MP4 مباشر)</label>
+                    <input type="url" id="vUrl" placeholder="https://domain.com/stream/index.m3u8">
+                    <label>ربط المحاضرة بمدرس معين</label>
+                    <select id="vTeacherSelect"></select>
+                </div>
+            </div>
+
+            <!-- فورم المدرس الجديد -->
+            <div id="form-teacher-group" class="form-type-group" style="display:none;">
+                <div class="form-group">
+                    <h3>👨‍🏫 بيانات المدرس والمادة</h3>
+                    <label>اسم الأستاذ المعلم</label>
+                    <input type="text" id="tName" placeholder="مثال: مستر محمد صلاح">
+                    <label>المادة التعليمية</label>
+                    <input type="text" id="tSubject" placeholder="مثال: اللغة العربية">
+                    <label>رابط صورة غلاف المدرس الشخصية</label>
+                    <input type="url" id="tImg" placeholder="رابط مباشر للصورة">
+                    <label>وصف موجز لطريقة الشرح والملازم</label>
+                    <textarea id="tDesc" rows="3" placeholder="اكتب نبذة تظهر للطلاب بالصفحة الرئيسية..."></textarea>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="submitDataToSystem()">حفظ البيانات ورفعها إلى GitHub 🚀</button>
+        </div>
+    </div>
+
+    <script>
+        // --- هيكل ومستودع البيانات الرئيسي الشامل ---
+        let CONFIG = { token: '', repo: '', sha: '' };
+        let PLATFORM_DB = {
+            allowed_keys: {}, // الكود مربوط برقم الهاتف لمنع التسريب
+            videos: [],       // المحاضرات والروابط المشفرة
+            teachers: []      // داتا المدرسين والمواد
+        };
+
+        // نظام التبديل بين الشاشات الرئيسية
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        // نظام التبديل بين الـ 3 أزرار المطلوبة
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.sub-section').forEach(s => s.style.display = 'none');
+            
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`section-${tabName}`).style.display = 'block';
+        }
+
+        // --- 1. تسجيل الدخول والاتصال بـ GitHub وجلب ملف data.json التعليمي الموحد ---
+        async function loginToDatabase() {
+            const token = document.getElementById('ghToken').value.trim();
+            const repo = document.getElementById('ghRepo').value.trim();
+            if(!token || !repo) return alert("من فضلك أدخل التوكن ومسار المستودع بالكامل!");
+
+            toggleLoader(true);
+            try {
+                // جلب أو إنشاء ملف قاعدة البيانات التعليمية الموحد data.json
+                const res = await fetch(`https://api.github.com/repos/${repo}/contents/data.json`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                
+                if(res.status === 404) {
+                    // تحضير هيكل بيانات افتراضي نظيف لو الملف مش موجود لسه في حساب جيت هاب
+                    PLATFORM_DB = { allowed_keys: {}, videos: [], teachers: [] };
+                    CONFIG = { token, repo, sha: '' };
+                } else {
+                    const data = await res.json();
+                    const decodedContent = decodeURIComponent(escape(atob(data.content)));
+                    PLATFORM_DB = JSON.parse(decodedContent);
+                    CONFIG = { token, repo, sha: data.sha };
+                }
+                
+                renderAllLists();
+                showView('dashboardView');
+            } catch (e) {
+                alert("فشل الاتصال: تأكد من صحة التوكن واسم المستودع بشكل صحيح.");
+            }
+            toggleLoader(false);
+        }
+
+        // تفريغ ورندرة القوائم الثلاثة في لوحة التحكم الديناميكية
+        function renderAllLists() {
+            // أ. رندرة أكواد الطلاب
+            const codesBox = document.getElementById('codesListContainer');
+            codesBox.innerHTML = '';
+            const phoneKeys = Object.keys(PLATFORM_DB.allowed_keys || {});
+            if(phoneKeys.length === 0) {
+                codesBox.innerHTML = `<p style="color:var(--text-dim); font-size:13px; text-align:center; padding:15px;">لا توجد أكواد مولدة بالسيستم حالياً.</p>`;
+            }
+            phoneKeys.forEach(phone => {
+                const card = document.createElement('div');
+                card.className = 'data-item-card';
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h4>هاتف الطالب: ${phone}</h4>
+                        <p style="color:var(--success); font-weight:bold; font-family:monospace; font-size:13px;">كود التفعيل: ${PLATFORM_DB.allowed_keys[phone]}</p>
+                    </div>
+                    <div class="actions">
+                        <div class="action-btn del-btn" onclick="deleteEntry('code', '${phone}')"><i class="fas fa-trash"></i></div>
+                    </div>
+                `;
+                codesBox.appendChild(card);
+            });
+
+            // ب. رندرة الفيديوهات والمحاضرات
+            const videosBox = document.getElementById('videosListContainer');
+            videosBox.innerHTML = '';
+            if((PLATFORM_DB.videos || []).length === 0) {
+                videosBox.innerHTML = `<p style="color:var(--text-dim); font-size:13px; text-align:center; padding:15px;">لا توجد محاضرات مضافة حتى الآن.</p>`;
+            }
+            (PLATFORM_DB.videos || []).forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'data-item-card';
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h4>${v.title}</h4>
+                        <p>المدرس المسؤول: ${v.teacherName || 'غير محدد'}</p>
+                    </div>
+                    <div class="actions">
+                        <div class="action-btn edit-btn" onclick="editEntry('video', ${v.id})"><i class="fas fa-edit"></i></div>
+                        <div class="action-btn del-btn" onclick="deleteEntry('video', ${v.id})"><i class="fas fa-trash"></i></div>
+                    </div>
+                `;
+                videosBox.appendChild(card);
+            });
+
+            // ج. رندرة المدرسين الجدد
+            const teachersBox = document.getElementById('teachersListContainer');
+            teachersBox.innerHTML = '';
+            if((PLATFORM_DB.teachers || []).length === 0) {
+                teachersBox.innerHTML = `<p style="color:var(--text-dim); font-size:13px; text-align:center; padding:15px;">لا يوجد مدرسين مضافين بالمنصة.</p>`;
+            }
+            (PLATFORM_DB.teachers || []).forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'data-item-card';
+                card.innerHTML = `
+                    <div class="item-info">
+                        <h4>${t.name}</h4>
+                        <p>مادة: ${t.subject}</p>
+                    </div>
+                    <div class="actions">
+                        <div class="action-btn edit-btn" onclick="editEntry('teacher', ${t.id})"><i class="fas fa-edit"></i></div>
+                        <div class="action-btn del-btn" onclick="deleteEntry('teacher', ${t.id})"><i class="fas fa-trash"></i></div>
+                    </div>
+                `;
+                teachersBox.appendChild(card);
+            });
+
+            // تحديث سلكتور اختيار المدرسين في فورم رفع الفيديوهات ديناميكياً
+            const selectElement = document.getElementById('vTeacherSelect');
+            selectElement.innerHTML = (PLATFORM_DB.teachers || []).map(t => `<option value="${t.id}">${t.name} (${t.subject})</option>`).join('');
+        }
+
+        // حاقن توليد الكود الفردي المشفر من رقم الهاتف المكتوب لمنع السرقة
+        function autoGenerateCodeToken() {
+            const phone = document.getElementById('cPhone').value.trim();
+            if(!phone) { document.getElementById('cToken').value = ""; return; }
+            // خوارزمية تشفير الأكواد الخاصة بك يا روماني لتطابق الكود برقم الفون
+            const token = "MSRK-" + btoa(phone).substring(0, 8).toUpperCase();
+            document.getElementById('cToken').value = token;
+        }
+
+        // فتح الفورم وتجهيز الإدخالات حسب نوع الزر المضغوط
+        function openForm(type) {
+            document.getElementById('entryType').value = type;
+            document.getElementById('entryId').value = '';
+            
+            // إخفاء كل الجروبات وتصفير المدخلات أولاً
+            document.querySelectorAll('.form-type-group').forEach(g => g.style.display = 'none');
+            document.querySelectorAll('#formView input, #formView textarea').forEach(i => i.value = '');
+            
+            // إظهار الجروب المحدد
+            document.getElementById(`form-${type}-group`).style.display = 'block';
+            showView('formView');
+        }
+
+        // تعديل البيانات السابقة
+        function editEntry(type, id) {
+            openForm(type);
+            document.getElementById('entryId').value = id;
+
+            if(type === 'video') {
+                const v = PLATFORM_DB.videos.find(x => x.id === id);
+                document.getElementById('vTitle').value = v.title;
+                document.getElementById('vUrl').value = v.stream;
+                document.getElementById('vTeacherSelect').value = v.teacherId;
+            } else if(type === 'teacher') {
+                const t = PLATFORM_DB.teachers.find(x => x.id === id);
+                document.getElementById('tName').value = t.name;
+                document.getElementById('tSubject').value = t.subject;
+                document.getElementById('tImg').value = t.img;
+                document.getElementById('tDesc').value = t.desc;
+            }
+        }
+
+        // حفظ البيانات الشامل وضخها في المستودع بعد معالجة الـ Object المطلوب
+        function submitDataToSystem() {
+            const type = document.getElementById('entryType').value;
+            const id = document.getElementById('entryId').value;
+
+            if(type === 'code') {
+                const phone = document.getElementById('cPhone').value.trim();
+                const token = document.getElementById('cToken').value.trim();
+                if(!phone) return alert("يرجى كتابة رقم الهاتف أولاً لتوليد كود التفعيل!");
+                
+                if(!PLATFORM_DB.allowed_keys) PLATFORM_DB.allowed_keys = {};
+                PLATFORM_DB.allowed_keys[phone] = token;
+
+            } else if(type === 'video') {
+                const title = document.getElementById('vTitle').value.trim();
+                const stream = document.getElementById('vUrl').value.trim();
+                const teacherId = Number(document.getElementById('vTeacherSelect').value);
+                const teacherObj = PLATFORM_DB.teachers.find(x => x.id === teacherId);
+                
+                if(!title || !stream) return alert("برجاء إدخال عنوان الفيديو ورابط البث!");
+
+                const videoData = {
+                    id: id ? Number(id) : Date.now(),
+                    title,
+                    stream,
+                    teacherId,
+                    teacherName: teacherObj ? teacherObj.name : 'عام'
+                };
+
+                if(id) {
+                    const idx = PLATFORM_DB.videos.findIndex(x => x.id === Number(id));
+                    PLATFORM_DB.videos[idx] = videoData;
+                } else {
+                    if(!PLATFORM_DB.videos) PLATFORM_DB.videos = [];
+                    PLATFORM_DB.videos.push(videoData);
+                }
+
+            } else if(type === 'teacher') {
+                const name = document.getElementById('tName').value.trim();
+                const subject = document.getElementById('tSubject').value.trim();
+                let img = document.getElementById('tImg').value.trim();
+                const desc = document.getElementById('tDesc').value.trim();
+
+                if(!name || !subject) return alert("برجاء إدخال اسم المدرس والمادة التعليمية!");
+                if(!img) img = "https://via.placeholder.com/300x260/161b26/ffffff?text=" + encodeURIComponent(subject);
+
+                const teacherData = {
+                    id: id ? Number(id) : Date.now(),
+                    name,
+                    subject,
+                    img,
+                    desc: desc || "لا يوجد وصف مضاف حالياً لهذه المادة."
+                };
+
+                if(id) {
+                    const idx = PLATFORM_DB.teachers.findIndex(x => x.id === Number(id));
+                    PLATFORM_DB.teachers[idx] = teacherData;
+                } else {
+                    if(!PLATFORM_DB.teachers) PLATFORM_DB.teachers = [];
+                    PLATFORM_DB.teachers.push(teacherData);
+                }
+            }
+
+            syncAndPushToGithub();
+        }
+
+        // حذف كود أو فيديو أو مدرس بشكل فوري من مصفوفة جيت هاب
+        function deleteEntry(type, keyId) {
+            if(!confirm("هل أنت متأكد تماماً من رغبتك في حذف هذا العنصر نهائياً؟")) return;
+
+            if(type === 'code') {
+                delete PLATFORM_DB.allowed_keys[keyId];
+            } else if(type === 'video') {
+                PLATFORM_DB.videos = PLATFORM_DB.videos.filter(x => x.id !== Number(keyId));
+            } else if(type === 'teacher') {
+                PLATFORM_DB.videos = PLATFORM_DB.videos.filter(x => x.teacherId !== Number(keyId)); // حذف فيديوهات المدرس التلقائية أيضاً لمنع المشاكل
+                PLATFORM_DB.teachers = PLATFORM_DB.teachers.filter(x => x.id !== Number(keyId));
+            }
+
+            syncAndPushToGithub();
+        }
+
+        // --- ٢. الرفع والمزامنة الآمنة والمباشرة مع مستودع GitHub ودعم أحرف اللغة العربية بالكامل دون مشاكل ترميز ---
+        async function syncAndPushToGithub() {
+            toggleLoader(true);
+            try {
+                const jsonString = JSON.stringify(PLATFORM_DB, null, 2);
+                // استخدام ترميز يونيكود فخم يدعم اللغة العربية بنسبة 100% دون ظهور الرموز الغريبة
+                const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+                
+                const res = await fetch(`https://api.github.com/repos/${CONFIG.repo}/contents/data.json`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Authorization': `token ${CONFIG.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "ROMEO ADMIN - Educational Platform Sync (UTF-8 Update)",
+                        content: contentBase64,
+                        sha: CONFIG.sha
+                    })
+                });
+                
+                const result = await res.json();
+                if(res.ok) {
+                    CONFIG.sha = result.content.sha; // تحديث كود SHA الخاص بالملف للعملية القادمة
+                    alert("تم الحفظ الفوري ومزامنة البيانات وتحديث الملف على سيرفر GitHub بنجاح! ✅");
+                    renderAllLists();
+                    showView('dashboardView');
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (e) {
+                alert("حدث خطأ أثناء مزامنة ورفع البيانات لجيت هاب: " + e.message);
+            }
+            toggleLoader(false);
+        }
+
+        function toggleLoader(show) {
+            document.getElementById('loader').style.display = show ? 'flex' : 'none';
+        }
+
+        function logout() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>

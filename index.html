@@ -2,17 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- كود سحري صارم لمنع التكبير والتصغير حتى لو تم العبث بإعدادات الهاتف -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>منصة مسارك التعليمية | نظام حماية مشفر</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- HLS.js for Streaming Support -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <style>
@@ -185,21 +181,16 @@
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- Overlay layer for Drawer -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
-    <!-- 50% Half Screen Professional Side Drawer Container -->
     <div class="app-drawer" id="appDrawer">
         <div class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i> إغلاق</div>
         
-        <!-- Profile info loaded instantly on Auth -->
         <div id="drawerProfileContainer">
-            <!-- Loaded dynamically by Script -->
-        </div>
+            </div>
 
         <hr style="border:0; border-top:1px solid var(--glass-border); margin: 10px 0;">
         
-        <!-- Navigation routes mirrored in drawer -->
         <div class="drawer-links">
             <div class="drawer-item" onclick="navigateFromDrawer('home')"><i class="fa-solid fa-house"></i> الرئيسية</div>
             <div class="drawer-item" onclick="navigateFromDrawer('teachers')"><i class="fa-solid fa-chalkboard-user"></i> المدرسون</div>
@@ -208,7 +199,6 @@
         </div>
     </div>
 
-    <!-- Navigation Header -->
     <header>
         <div class="container nav-container">
             <div style="display: flex; align-items: center;">
@@ -224,7 +214,6 @@
                 </div>
             </div>
 
-            <!-- Desktop Menu Router links -->
             <ul class="nav-menu-desktop" id="navMenu">
                 <li><a class="nav-link active" onclick="navigateTo('home')">الرئيسية</a></li>
                 <li><a class="nav-link" onclick="navigateTo('teachers')">المدرسون</a></li>
@@ -232,21 +221,18 @@
                 <li><a class="nav-link" onclick="navigateTo('contact')">تواصل معنا</a></li>
             </ul>
 
-            <!-- Mapped beautiful small scaled dynamic button -->
             <div class="header-auth-box" id="headerAuthBtnBox">
                 <button class="btn btn-primary" onclick="navigateTo('login')"><i class="fa-solid fa-lock"></i> دخول / تسجيل</button>
             </div>
         </div>
     </header>
 
-    <!-- Content Router Area -->
     <main class="container">
 
-        <!-- 1. HERO HOME -->
         <section id="home" class="active-section">
             <div class="hero-wrapper">
                 <div class="hero-content">
-                    <h2>مرحبًا بك في <br><span>...مسارك التعليمي</span></h2>
+                    <h2>مرحبًا بك في <br><span>مسارك التعليمي</span></h2>
                     <p>المنصة التعليمية الأولى المحمية بالكامل ضد الاختراق وتسريب الحصص. تصفح الآن المدرسين الأكفاء، واحصل على كود تفعيلك الفردي والمشفر الخاص بهاتفك لتشغيل جميع المحاضرات بأعلى جودة وثبات.</p>
                     <button class="btn btn-primary" onclick="navigateTo('teachers')">تصفح المدرسين وابدأ الآن <i class="fa-solid fa-arrow-left"></i></button>
                 </div>
@@ -256,7 +242,6 @@
             </div>
         </section>
 
-        <!-- 2. TEACHERS LIST -->
         <section id="teachers">
             <div style="text-align:center; margin-bottom: 40px;">
                 <h2 style="font-size:1.8rem; font-weight:700;">هيئة التدريس والبرمجة</h2>
@@ -265,7 +250,6 @@
             <div class="teachers-grid" id="teachersGridBox"></div>
         </section>
 
-        <!-- 3. SIGN UP -->
         <section id="register">
             <div class="auth-container glass-card">
                 <h3 style="margin-bottom:20px; text-align:center;">إنشاء حساب طالب جديد</h3>
@@ -294,7 +278,6 @@
             </div>
         </section>
 
-        <!-- 4. SIGN IN -->
         <section id="login">
             <div class="auth-container glass-card">
                 <h3 style="margin-bottom:20px; text-align:center;">تسجيل الدخول للمنصة</h3>
@@ -317,7 +300,6 @@
             </div>
         </section>
 
-        <!-- 5. WHATSAPP GATEWAY REDIRECT -->
         <section id="pending-queue">
             <div class="auth-container glass-card" style="max-width: 550px; text-align: center;">
                 <i class="fa-solid fa-hourglass-half" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
@@ -336,7 +318,6 @@
             </div>
         </section>
 
-        <!-- 6. STREAMING VIDEO ROOM VIEW -->
         <section id="subject-page">
             <div class="back-btn-container">
                 <button class="btn-back" onclick="navigateTo('teachers')"><i class="fa-solid fa-arrow-right"></i> العودة للمدرسين</button>
@@ -347,7 +328,6 @@
                 <p id="roomTeacherSubject" style="color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size:0.9rem;">مادة التخصص</p>
 
                 <div class="video-box-master" id="playerContainerBox">
-                    <!-- Locked view container -->
                     <div class="server-lock-screen" id="serverLockOverlay">
                         <i class="fa-solid fa-lock"></i>
                         <h3>السيرفر مغلق وغير مفعل!</h3>
@@ -364,7 +344,6 @@
             </div>
         </section>
 
-        <!-- 7. SECRET ADMIN KEY GENERATOR PANEL -->
         <section id="admin-panel">
             <div class="back-btn-container">
                 <button class="btn-back" onclick="navigateTo('login')"><i class="fa-solid fa-arrow-right"></i> خروج</button>
@@ -387,7 +366,6 @@
             </div>
         </section>
 
-        <!-- 8. ABOUT -->
         <section id="about">
             <div class="glass-card" style="padding: 30px; text-align: center; max-width: 750px; margin: 0 auto; line-height: 1.8; font-size:0.95rem; color: var(--text-secondary);">
                 <h3 style="color:#fff; margin-bottom:15px;">عن منصة مسارك التعليمية</h3>
@@ -395,7 +373,6 @@
             </div>
         </section>
 
-        <!-- 9. CONTACT -->
         <section id="contact">
             <div style="text-align:center; margin-bottom:30px;">
                 <h3>إدارة المنصة والدعم الفني</h3>
@@ -418,7 +395,6 @@
 
     </main>
 
-    <!-- Activation Input Popup Modal -->
     <div class="modal-overlay" id="activationModal">
         <div class="modal-card glass-card">
             <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-key" style="color: var(--accent);"></i> تفعيل الاشتراك الشامل</h3>
@@ -442,7 +418,6 @@
         </div>
     </footer>
 
-    <!-- JavaScript Code Engine -->
     <script>
         const platformData = {
             teachers: [
