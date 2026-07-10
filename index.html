@@ -630,7 +630,7 @@ header .brand i {
         function sendDataToAdminWhatsApp(adminName) {
             if(!currentSessionUser) return;
             const adminPhone = adminName === 'romany' ? '201286716976' : '201205669854';
-            const message = `مرحباً يا باشمهندس، أنا قمت بالتسجيل في منصة مسارك وأريد الحصول على كود اشتراكي المشفّر الحصري.\n\nبياناتي المسجلة:\n- اسم الطالب: ${currentSessionUser.name}\n- رقم الهاتف: ${currentSessionUser.phone}`;
+            const message = `أنا قمت بالتسجيل في منصة مسارك وأريد الحصول على كود اشتراكي المشفّر الحصري.\n\nبياناتي المسجلة:\n- اسم الطالب: ${currentSessionUser.name}\n- رقم الهاتف: ${currentSessionUser.phone}`;
             window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`, '_blank');
             alert('تم تجهيز بياناتك وفتح الواتساب. بمجرد استلام الكود، افتح القائمة الجانبية واضغط "ادخل كودك هنا" لفتح جميع المحاضرات.');
             navigateTo('login');
