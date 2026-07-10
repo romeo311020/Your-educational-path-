@@ -177,6 +177,108 @@
         footer { background: #090d16; padding: 20px 0; border-top: 1px solid var(--glass-border); text-align: center; margin-top: 50px; font-size: 0.8rem; color: var(--text-secondary); }
 
         @media (max-width: 992px) { .hero-wrapper, .management-grid { grid-template-columns: 1fr; text-align: center; } .hero-content h2 { font-size: 2rem; } .nav-menu-desktop { display: none; } }
+/* =========================================================
+   تنسيق الهيدر العلوي ومنع تداخل الأزرار والعناوين (تصميم متناسق)
+   ========================================================= */
+
+/* إعادة هيكلة الهيدر بالكامل ليصبح مرن ومتناسق */
+header {
+    background: rgba(21, 29, 48, 0.85) !important; /* خلفية كحلي داكنة زجاجية */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 10px 4% !important; /* تقليل الارتفاع والمساحة العمودية ليكون أصغر */
+    display: flex !important;
+    justify-content: space-between !important; /* توزيع الأطراف والمنتصف بالتساوي */
+    align-items: center !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 999 !important;
+    height: 65px !important; /* تحديد ارتفاع ثابت ومناسب ومنع التضخم */
+}
+
+/* جعل لوجو وعنوان المنصة في المنتصف تماماً دون تداخل */
+header .brand {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* سنتره دقيقة في وسط الشاشة تماماً */
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    pointer-events: auto !important;
+}
+
+/* تصغير حجم خط العنوان ليكون متناسقاً ولا يأخذ مساحة ضخمة */
+header .brand h1 {
+    font-size: 1.15rem !important; /* تصغير حجم الفونت */
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ffffff, #E5B80B) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    white-space: nowrap !important; /* منع انقسام السطر */
+}
+
+header .brand i {
+    font-size: 1.3rem !important; /* تصغير أيقونة القبعة */
+    color: #E5B80B !important;
+}
+
+/* ترتيب وتنسيق أزرار القائمة وزر التسجيل على الأطراف */
+.nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    justify-content: space-between !important; /* دفع الأزرار أقصى اليمين وأقصى اليسار */
+    pointer-events: none !important; /* السماح بالضغط على العناصر الخلفية للعنوان السنتر */
+}
+
+/* تفعيل الضغط داخل حاويات الأزرار */
+.nav-actions > * {
+    pointer-events: auto !important;
+}
+
+/* تصميم موحد وصغير للأزرار العلوية (تسجيل الدخول / القائمة) */
+.btn-nav, header button, .menu-trigger-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #F8FAFC !important;
+    padding: 6px 14px !important; /* تصغير حجم الزر */
+    border-radius: 8px !important;
+    font-size: 0.85rem !important; /* خط أصغر وأرقى */
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    height: 36px !important; /* ارتفاع موحد لجميع الأزرار */
+}
+
+/* تأثير احترافي عند وقوف الماوس على الأزرار العلوية */
+.btn-nav:hover, header button:hover {
+    background: #E5B80B !important; /* يتحول للذهبي الملكي لحصص التأسيس */
+    color: #0B0F19 !important;
+    border-color: #E5B80B !important;
+    box-shadow: 0 0 12px rgba(229, 184, 11, 0.3) !important;
+}
+
+/* ضبط استجابة الشاشات الصغيرة للموبايل لضمان عدم حدوث تداخل نهائياً */
+@media (max-width: 480px) {
+    header {
+        padding: 10px 3% !important;
+    }
+    header .brand h1 {
+        font-size: 1rem !important; /* تصغير إضافي للموبايل الصغير */
+    }
+    .btn-nav span {
+        display: none !important; /* إخفاء النص البرمجي في الموبايل والاعتماد على الأيقونة فقط لشكل أرتب */
+    }
+    .btn-nav {
+        padding: 6px 10px !important;
+    }
+}
     </style>
 </head>
 <body oncontextmenu="return false;">
