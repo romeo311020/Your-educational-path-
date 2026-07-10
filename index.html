@@ -780,6 +780,50 @@ function playUniversalVideoPlayer(url) {
         }
     }
 }
+// =========================================================
+// كود الحذف التلقائي والمزامنة مع ملف data.json السحابي
+// =========================================================
+
+// 1. تصفير ومسح جميع المدرسين الثابتين المكتوبين في الكود فوراً
+if (typeof platformData !== 'undefined') {
+    platformData.teachers = []; 
+}
+
+// ⚠️ ضع هنا رابط ملف data.json المباشر (Raw) من جيت هاب لتعمل المزامنة
+const GITHUB_JSON_URL = "YOUR_GITHUB_JSON_URL_HERE"; 
+
+// 2. دالة جلب البيانات السحابية وضخها في الموقع
+async function fetchCloudTeachers() {
+    if (GITHUB_JSON_URL.includes("YOUR_GITHUB_JSON_URL_HERE")) {
+        console.warn("برجاء وضع رابط ملف data.json المباشر من جيت هاب ليتم عرض المدرسين.");
+        return;
+    }
+    
+    try {
+        // جلب البيانات مع إضافة تيمبستامب لمنع المتصفح من تخزين النسخة القديمة (Anti-Cache)
+        const response = await fetch(GITHUB_JSON_URL + '?t=' + new Date().getTime());
+        if (response.ok) {
+            const data = await response.json();
+            
+            // حقن المدرسين القادمين من data.json فقط في المصفوفة الأصلية لكودك
+            platformData.teachers = data.teachers || [];
+            
+            // إعادة تشغيل دالة بناء الكروت الأصلية الموجودة في كودك ليظهروا على الشاشة
+            if (typeof renderTeachers === 'function') {
+                renderTeachers();
+            } else if (typeof initPlatform === 'function') {
+                initPlatform();
+            }
+        }
+    } catch (error) {
+        console.error("حدث خطأ أثناء مزامنة المدرسين من جيت هاب:", error);
+    }
+}
+
+// 3. تشغيل المزامنة تلقائياً بمجرد فتح الطالب للموقع
+window.addEventListener('DOMContentLoaded', () => {
+    fetchCloudTeachers();
+});
     </script>
 </body>
 </html>
