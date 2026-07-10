@@ -1,5 +1,37 @@
 {
-  "allowed_keys": {},
-  "videos": [],
-  "teachers": []
+  "teachers": [
+    {
+      "name": "الأستاذ أحمد مصطفى",
+      "subject": "اللغة العربية (حصص التأسيس)",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=500",
+      "lectures": [
+        {
+          "title": "المحاضرة الأولى: أسس النحو والبلاغة",
+          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        },
+        {
+          "title": "المحاضرة الثانية: كبسولة الإعراب السريعة",
+          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        }
+      ]
+    },
+    {
+      "name": "الأستاذ محمد علي",
+      "subject": "اللغة الإنجليزية",
+      "image": "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=500",
+      "lectures": [
+        {
+          "title": "المحاضرة الأولى: قواعد الأزمنة الشاملة",
+          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        }
+      ]
+    }
+  ],
+  "students": [
+    {
+      "name": "طالب تجريبي 1",
+      "key": "MSRK-DEMO123",
+      "date": "2026/07/11"
+    }
+  ]
 }
