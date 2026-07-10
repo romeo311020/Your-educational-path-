@@ -717,6 +717,69 @@
                 if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
             };
         }
+// =========================================================
+// مشغل الفيديو الاحترافي الشامل (يدعم YouTube, ArabX, AlbaPlayer)
+// =========================================================
+function playUniversalVideoPlayer(url) {
+    // حاول العثور على حاوية الفيديو في كودك (بناءً على المعرفات الشائعة لديك)
+    const videoWrapper = document.getElementById('videoWrapper') || document.getElementById('videoPlayerContainer') || document.querySelector('.video-container');
+    
+    if (!videoWrapper) {
+        console.error("لم يتم العثور على حاوية مشغل الفيديو في الصفحة!");
+        return;
+    }
+    
+    // تفريغ المشغل القديم تماماً لمنع تداخل الأصوات أو تعليق السيرفرات
+    videoWrapper.innerHTML = ''; 
+    
+    if (!url) {
+        videoWrapper.innerHTML = `<div style="color:#94A3B8; display:flex; justify-content:center; align-items:center; height:100%; font-family:'Cairo';">رابط المحاضرة غير متوفر حالياً.</div>`;
+        return;
+    }
+
+    const cleanUrl = url.trim();
+
+    // 1. فحص إذا كان الرابط هو Embed (يوتيوب، سيرفر ArabX، أو AlbaPlayer، أو أي سيرفر مستضاف)
+    if (cleanUrl.includes('embed') || cleanUrl.includes('albaplayer') || cleanUrl.includes('player') || cleanUrl.includes('html') || !cleanUrl.match(/\.(m3u8|mp4|webm)$/i)) {
+        const iframe = document.createElement('iframe');
+        iframe.src = cleanUrl;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.display = 'block';
+        // تفعيل كامل الصلاحيات لملء الشاشة والتشغيل التلقائي لكل السيرفرات الخارجية
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        iframe.setAttribute('webkitallowfullscreen', 'true');
+        iframe.setAttribute('mozallowfullscreen', 'true');
+        
+        videoWrapper.appendChild(iframe);
+    } 
+    // 2. فحص إذا كان الرابط مباشراً أو بثاً حياً بصيغة HLS (.m3u8) أو فيديو خام (.mp4)
+    else {
+        const video = document.createElement('video');
+        video.style.width = '100%';
+        video.style.height = '100%';
+        video.style.display = 'block';
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        
+        videoWrapper.appendChild(video);
+
+        if (cleanUrl.endsWith('.m3u8')) {
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(cleanUrl);
+                hls.attachMedia(video);
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = cleanUrl;
+            }
+        } else {
+            video.src = cleanUrl;
+        }
+    }
+}
     </script>
 </body>
 </html>
