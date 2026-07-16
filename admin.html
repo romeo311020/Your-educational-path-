@@ -231,6 +231,17 @@
             teachers: []      // داتا المدرسين والمواد
         };
 
+        function ensureDataStructure() {
+            if (!PLATFORM_DB || typeof PLATFORM_DB !== 'object') {
+                PLATFORM_DB = { allowed_keys: {}, videos: [], teachers: [] };
+            }
+            if (!PLATFORM_DB.allowed_keys || typeof PLATFORM_DB.allowed_keys !== 'object') {
+                PLATFORM_DB.allowed_keys = {};
+            }
+            if (!Array.isArray(PLATFORM_DB.videos)) PLATFORM_DB.videos = [];
+            if (!Array.isArray(PLATFORM_DB.teachers)) PLATFORM_DB.teachers = [];
+        }
+
         // نظام التبديل بين الشاشات الرئيسية
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -280,6 +291,8 @@
 
         // تفريغ ورندرة القوائم الثلاثة في لوحة التحكم الديناميكية
         function renderAllLists() {
+            ensureDataStructure();
+
             // أ. رندرة أكواد الطلاب
             const codesBox = document.getElementById('codesListContainer');
             codesBox.innerHTML = '';
@@ -348,7 +361,8 @@
 
             // تحديث سلكتور اختيار المدرسين في فورم رفع الفيديوهات ديناميكياً
             const selectElement = document.getElementById('vTeacherSelect');
-            selectElement.innerHTML = (PLATFORM_DB.teachers || []).map(t => `<option value="${t.id}">${t.name} (${t.subject})</option>`).join('');
+            selectElement.innerHTML = '<option value="">-- اختر المدرس --</option>' +
+                (PLATFORM_DB.teachers || []).map(t => `<option value="${t.id}">${t.name} (${t.subject})</option>`).join('');
         }
 
         // حاقن توليد الكود الفردي المشفر من رقم الهاتف المكتوب لمنع السرقة
@@ -368,6 +382,7 @@
             // إخفاء كل الجروبات وتصفير المدخلات أولاً
             document.querySelectorAll('.form-type-group').forEach(g => g.style.display = 'none');
             document.querySelectorAll('#formView input, #formView textarea').forEach(i => i.value = '');
+            document.querySelectorAll('#formView select').forEach(s => s.value = '');
             
             // إظهار الجروب المحدد
             document.getElementById(`form-${type}-group`).style.display = 'block';
@@ -395,6 +410,7 @@
 
         // حفظ البيانات الشامل وضخها في المستودع بعد معالجة الـ Object المطلوب
         function submitDataToSystem() {
+            ensureDataStructure();
             const type = document.getElementById('entryType').value;
             const id = document.getElementById('entryId').value;
 
@@ -461,6 +477,7 @@
 
         // حذف كود أو فيديو أو مدرس بشكل فوري من مصفوفة جيت هاب
         function deleteEntry(type, keyId) {
+            ensureDataStructure();
             if(!confirm("هل أنت متأكد تماماً من رغبتك في حذف هذا العنصر نهائياً؟")) return;
 
             if(type === 'code') {
@@ -518,172 +535,12 @@
         function logout() {
             location.reload();
         }
-// =========================================================
-// تحديثات المزامنة الشاملة: حفظ الطلاب، الفيديوهات، وربط المدرسين
-// =========================================================
 
-// دالة لتحديث قائمة المدرسين المنسدلة تلقائياً داخل فورم إضافة المحاضرات
-function updateTeachersDropdown() {
-    // حاول العثور على حقل اختيار المدرس (المفترض وجوده أو سنقوم بإنشائه ديناميكياً)
-    let selectElement = document.getElementById('lectureTeacherSelect');
-    
-    // إذا لم يكن الحقل موجوداً في الفورم، سنقوم بالبحث عن أول حقل input مخصص لاسم المدرس ونستبدله بـ select ذكي
-    if (!selectElement) {
-        const fallbackInput = document.getElementById('lectureTeacher') || document.querySelector('[placeholder="اسم المدرس"]') || document.querySelector('[placeholder="اختر المدرس"]');
-        if (fallbackInput) {
-            selectElement = document.createElement('select');
-            selectElement.id = 'lectureTeacherSelect';
-            selectElement.className = fallbackInput.className;
-            selectElement.style.cssText = fallbackInput.style.cssText;
-            fallbackInput.parentNode.replaceChild(selectElement, fallbackInput);
-        }
-    }
-
-    if (!selectElement) return;
-
-    // تنظيف القائمة وضخ المدرسين المتوفرين في المنصة حالياً
-    selectElement.innerHTML = '<option value="">-- اختر المدرس لربط المحاضرة به --</option>';
-    
-    if (platformData && platformData.teachers) {
-        platformData.teachers.forEach((teacher, index) => {
-            const option = document.createElement('option');
-            option.value = index; // ربط عبر رقم المدرس في المصفوفة لضمان الدقة
-            option.innerText = `${teacher.name} (${teacher.subject})`;
-            selectElement.appendChild(option);
+        document.addEventListener('DOMContentLoaded', () => {
+            ensureDataStructure();
+            switchTab('codes');
+            toggleLoader(false);
         });
-    }
-}
-
-// تعديل واصلاح دالة إضافة المحاضرة (ربط الفيديو بمدرس معين)
-function addNewLectureToTeacher() {
-    const selectElement = document.getElementById('lectureTeacherSelect');
-    const titleInput = document.getElementById('lectureTitle') || document.querySelector('[placeholder="عنوان المحاضرة/الدرس"]');
-    const urlInput = document.getElementById('lectureUrl') || document.querySelector('[placeholder="رابط الفيديو (YouTube / ArabX / AlbaPlayer)"]');
-
-    if (!selectElement || !titleInput || !urlInput) {
-        alert("تنبيه: حقول إضافة المحاضرة غير مكتملة في الواجهة الحالية!");
-        return;
-    }
-
-    const teacherIndex = selectElement.value;
-    const lectureTitle = titleInput.value.trim();
-    const lectureUrl = urlInput.value.trim();
-
-    if (teacherIndex === "" || !lectureTitle || !lectureUrl) {
-        alert("برجاء اختيار المدرس، وكتابة عنوان المحاضرة ورابط الفيديو بشكل صحيح! ⚠️");
-        return;
-    }
-
-    // التأكد من هيكلة المحاضرات لدى المدرس المختار
-    const targetTeacher = platformData.teachers[teacherIndex];
-    if (!targetTeacher.lectures) {
-        targetTeacher.lectures = [];
-    }
-
-    // إضافة المحاضرة الجديدة لهيكل المدرس المختار
-    targetTeacher.lectures.push({
-        title: lectureTitle,
-        url: lectureUrl
-    });
-
-    alert(`تم ربط إضافة محاضرة "${lectureTitle}" بنجاح للمدرس: ${targetTeacher.name} ✅`);
-    
-    // تنظيف الحقول بعد الإضافة
-    titleInput.value = '';
-    urlInput.value = '';
-    
-    // إعادة بناء القوائم وحفظ التعديلات فوراً على جيت هاب
-    if (typeof renderAllLists === 'function') renderAllLists();
-    if (typeof saveAllToGitHub === 'function') saveAllToGitHub();
-}
-
-// تعديل واصلاح دالة إضافة وحفظ الطلاب في القائمة
-function addNewStudentSecurely() {
-    const nameInput = document.getElementById('studentName') || document.getElementById('admStudentPhone'); // حقل الاسم أو رقم الهاتف المتوفر
-    const keyDisplay = document.getElementById('generatedKeyDisplay');
-
-    if (!nameInput) {
-        alert("لم يتم العثور على حقول إدخال بيانات الطالب!");
-        return;
-    }
-
-    const studentIdentifier = nameInput.value.trim();
-    
-    // توليد كود التفعيل الآمن بناءً على دالتك الأصلية
-    if (typeof generateSecureStudentKey === 'function') {
-        generateSecureStudentKey();
-    }
-    
-    const generatedKey = keyDisplay ? keyDisplay.innerText.trim() : "";
-
-    if (!studentIdentifier || !generatedKey) {
-        alert("برجاء كتابة بيانات الطالب وتوليد كود التفعيل أولاً! ⚠️");
-        return;
-    }
-
-    // التأكد من وجود مصفوفة للطلاب داخل بنية platformData لعدم حدوث خطأ
-    if (!platformData.students) {
-        platformData.students = [];
-    }
-
-    // فحص عدم تكرار الكود
-    const isExist = platformData.students.some(st => st.key === generatedKey);
-    if (isExist) {
-        alert("هذا الطالب أو الكود مضاف بالفعل مسبقاً!");
-        return;
-    }
-
-    // حفظ الطالب رسمياً في المصفوفة
-    platformData.students.push({
-        name: studentIdentifier,
-        key: generatedKey,
-        date: new Date().toLocaleDateString('ar-EG')
-    });
-
-    // تحديث قائمة وعرض الطلاب على الشاشة فوراً
-    if (typeof renderAllLists === 'function') {
-        renderAllLists();
-    } else {
-        // إذا كانت الدالة الأصلية تبني الطلاب بشكل منفصل، نقوم بتحديث حاوية الطلاب يدوياً
-        const studentContainer = document.getElementById('studentsListContainer') || document.getElementById('students-list');
-        if (studentContainer) {
-            const row = document.createElement('div');
-            row.className = 'list-item';
-            row.innerHTML = `<span>${studentIdentifier}</span> - <strong style="color:var(--primary)">${generatedKey}</strong>`;
-            studentContainer.appendChild(row);
-        }
-    }
-
-    // مزامنة ورفع ملف الجيت هاب تلقائياً لكي لا تضيع البيانات عند تحديث الصفحة
-    if (typeof saveAllToGitHub === 'function') {
-        saveAllToGitHub();
-    }
-}
-
-// ربط تشغيل وتحديث القوائم المنسدلة تلقائياً بمجرد فتح لوحة التحكم وعرض المراجع
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        updateTeachersDropdown();
-        
-        // ربط أزرار الإضافة الحالية بالدوال المصلحة الجديدة لمنع التضارب
-        const addStudentBtn = document.querySelector('.btn-generate') || document.querySelector('button[onclick*="Student"]');
-        if(addStudentBtn) {
-            addStudentBtn.setAttribute('onclick', 'addNewStudentSecurely()');
-        }
-        
-        const addLectureBtn = document.querySelector('button[onclick*="Lecture"]') || document.querySelector('button[onclick*="Video"]');
-        if(addLectureBtn) {
-            addLectureBtn.setAttribute('onclick', 'addNewLectureToTeacher()');
-        }
-    }, 1000); // تأخير ثانية لضمان تحميل البيانات السحابية أولاً
-});
-
-// إعادة تشغيل دالة بناء الدروب داون عند إضافة مدرس جديد لكي يظهر فوراً في خيارات ربط المحاضرات
-const originalRenderAllLists = typeof renderAllLists === 'function' ? renderAllLists : null;
-renderAllLists = function() {
-    if(originalRenderAllLists) originalRenderAllLists();
-    updateTeachersDropdown();
-};
     </script>
 </body>
 </html>
