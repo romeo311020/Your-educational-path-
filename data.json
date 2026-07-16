@@ -33,5 +33,7 @@
       "key": "MSRK-DEMO123",
       "date": "2026/07/11"
     }
-  ]
+  ],
+  "allowed_keys": {},
+  "videos": []
 }
