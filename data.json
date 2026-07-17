@@ -1,6 +1,23 @@
 {
-  "allowed_keys": {},
-  "videos": [],
+  "allowed_keys": {
+    "01027675035": "311020"
+  },
+  "videos": [
+    {
+      "id": 1784251252452,
+      "title": "المحاضرة الأولى | كورس تأسيس برمجة بكالوريا 2027 - أساسيات البرمجة من الصفر | النموذج الجديد",
+      "url": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=7iSkVCR9bRWENbxf",
+      "teacherName": "مهندس كمال المراكبي",
+      "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=7iSkVCR9bRWENbxf"
+    },
+    {
+      "id": 1784251252453,
+      "title": "محاضرة برمجة | أساسيات HTML و CSS",
+      "url": "https://www.youtube.com/embed/-6CSooIL9Lw?si=N73P38f4KPYmAKrx",
+      "teacherName": "مستر أحمد السقا",
+      "stream": "https://www.youtube.com/embed/-6CSooIL9Lw?si=N73P38f4KPYmAKrx"
+    }
+  ],
   "teachers": [
     {
       "id": 1,
@@ -8,15 +25,7 @@
       "subject": "اللغة العربية",
       "img": "https://i.postimg.cc/25K4nGbj/images-(10).jpg",
       "desc": "شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.",
-      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    },
-    {
-      "id": 2,
-      "name": "مستر وائل ميلاد",
-      "subject": "اللغة الإنجليزية",
-      "img": "https://i.postimg.cc/QCL1yMJS/images-(11).jpg",
-      "desc": "تأسيس القواعد اللغوية والمهارات بأسلوب تفاعلي رائع لضمان التفوق والدرجة النهائية.",
-      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      "stream": ""
     },
     {
       "id": 3,
@@ -24,7 +33,7 @@
       "subject": "التاريخ",
       "img": "https://i.postimg.cc/4yzVkTWr/images-(12).jpg",
       "desc": "ربط ممتع للأحداث التاريخية بالخرائط الذهنية بعيداً عن الحفظ التقليدي وبأسلوب شيق.",
-      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      "stream": ""
     },
     {
       "id": 4,
@@ -32,7 +41,7 @@
       "subject": "البرمجة والتطوير",
       "img": "https://i.postimg.cc/Zq2dWq2K/images-(13).jpg",
       "desc": "تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب الحقيقية خطوة بخطوة للطلاب.",
-      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      "stream": "https://www.youtube.com/embed/-6CSooIL9Lw?si=N73P38f4KPYmAKrx"
     },
     {
       "id": 5,
@@ -40,7 +49,7 @@
       "subject": "الهندسة والتقنية",
       "img": "https://i.postimg.cc/PxnfVzqN/images-(4).jpg",
       "desc": "خبير في الشرح العملي والتقني مع منهج واضح ومبسط يركز على الفهم الحقيقي والتطبيق العملي.",
-      "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=dSM3tT7H6GHDT2SC"
+      "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=7iSkVCR9bRWENbxf"
     }
   ]
 }

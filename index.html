@@ -140,13 +140,35 @@
         .hero-content h2 { font-size: 2.5rem; line-height: 1.4; margin-bottom: 20px; font-weight: 800; }
         .hero-content h2 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-content p { color: var(--text-secondary); font-size: 1rem; line-height: 1.8; margin-bottom: 30px; }
+        .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .hero-badge { padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border); color: var(--text-secondary); font-size: 0.8rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+        .feature-card { padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); }
+        .feature-card i { color: var(--accent); font-size: 1rem; margin-bottom: 8px; }
+        .feature-card h4 { font-size: 0.95rem; margin-bottom: 4px; }
+        .feature-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+        .toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 4000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { min-width: 260px; max-width: 360px; padding: 12px 14px; border-radius: 10px; background: rgba(15,23,42,0.95); border: 1px solid var(--glass-border); color: white; box-shadow: 0 12px 24px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; animation: toastIn 0.3s ease; }
+        .toast.success { border-color: rgba(34,197,94,0.35); }
+        .toast.error { border-color: rgba(239,68,68,0.35); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Teachers UI */
-        .teachers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .teachers-grid { display: flex; flex-direction: column; gap: 24px; }
+        .lecture-section { padding: 18px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); }
+        .lecture-section-title { font-size: 1.05rem; font-weight: 700; color: var(--accent); margin-bottom: 12px; }
+        .teacher-toggle { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.04); border-radius: 12px; color: white; cursor: pointer; margin-bottom: 12px; transition: 0.3s; text-align: right; }
+        .teacher-toggle:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+        .teacher-toggle.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px rgba(245,158,11,0.2); }
+        .teacher-photo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.15); }
+        .teacher-name { font-size: 1rem; font-weight: 700; color: white; }
+        .teacher-subject { font-size: 0.78rem; color: var(--text-secondary); }
+        .lecture-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 6px; }
         .teacher-card { overflow: hidden; padding: 0; }
         .teacher-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
-        .teacher-img-wrapper { position: relative; height: 260px; width: 100%; overflow: hidden; background: #151f32; }
+        .teacher-img-wrapper { position: relative; height: 220px; width: 100%; overflow: hidden; background: #151f32; }
         .teacher-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .teacher-photo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.15); }
         .teacher-badge { position: absolute; top: 12px; right: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--accent); padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; color: var(--accent); font-weight: bold; }
         .teacher-info { padding: 20px; }
 
@@ -159,6 +181,8 @@
 
         /* Streaming Area inside Subject Page */
         .video-box-master { position: relative; width: 100%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        .video-wrapper-player { width: 100%; aspect-ratio: 16 / 9; min-height: 320px; background: #000; border-radius: 12px; overflow: hidden; }
+        .video-wrapper-player iframe, .video-wrapper-player video { width: 100%; height: 100%; min-height: 320px; border: 0; display: block; }
         video { width: 100%; display: block; }
         .video-watermark { position: absolute; color: rgba(255, 255, 255, 0.12); font-size: 1rem; pointer-events: none; z-index: 10; font-weight: bold; animation: floatWatermark 12s linear infinite alternate; }
         @keyframes floatWatermark { 0% { top: 10%; left: 10%; } 50% { top: 80%; left: 70%; } 100% { top: 50%; left: 30%; } }
@@ -329,14 +353,38 @@ header .brand i {
         </div>
     </header>
 
+    <div id="toastContainer" class="toast-container"></div>
+
     <main class="container">
 
         <section id="home" class="active-section">
             <div class="hero-wrapper">
                 <div class="hero-content">
+                    <div class="hero-badges">
+                        <span class="hero-badge"><i class="fa-solid fa-bolt"></i> دخول سريع</span>
+                        <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> حساب آمن</span>
+                        <span class="hero-badge"><i class="fa-solid fa-play"></i> مشاهدة مباشرة</span>
+                    </div>
                     <h2>مرحبًا بك في <br><span>مسارك التعليمي</span></h2>
-                    <p>المنصة التعليمية الأولى المحمية بالكامل ضد الاختراق وتسريب الحصص. تصفح الآن المدرسين الأكفاء، واحصل على كود تفعيلك الفردي والمشفر الخاص بهاتفك لتشغيل جميع المحاضرات بأعلى جودة وثبات.</p>
+                    <p>المنصة التعليمية الأولى التي تتيح لك إنشاء حساب بسيط والبدء مباشرة في مشاهدة محاضرات المدرسين بدون أي أكواد أو تعقيدات.</p>
                     <button class="btn btn-primary" onclick="navigateTo('teachers')">تصفح المدرسين وابدأ الآن <i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fa-solid fa-user-check"></i>
+                            <h4>إنشاء حساب سريع</h4>
+                            <p>سجل باسمك وابدأ مباشرة من أول زيارة.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fa-solid fa-video"></i>
+                            <h4>محاضرات احترافية</h4>
+                            <p>تجربة مشاهدة مريحة مع محتوى جذاب.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <h4>متوافق مع الجوال</h4>
+                            <p>واجهة عصرية تناسب كل الأجهزة بسهولة.</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="hero-image" style="text-align: center;">
                     <i class="fa-solid fa-laptop-code" style="font-size: 8rem; background: linear-gradient(135deg, #fff, var(--text-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
@@ -346,8 +394,8 @@ header .brand i {
 
         <section id="teachers">
             <div style="text-align:center; margin-bottom: 40px;">
-                <h2 style="font-size:1.8rem; font-weight:700;">هيئة التدريس والبرمجة</h2>
-                <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:5px;">اختر معلم المادة للدخول لقاعة المشاهدة المشفرة مباشرة</p>
+                <h2 style="font-size:1.8rem; font-weight:700;">المدرسون والمحاضرات</h2>
+                <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:5px;">كل مدرس يحتوي على عدة محاضرات داخلية يمكنك فتحها مباشرة</p>
             </div>
             <div class="teachers-grid" id="teachersGridBox"></div>
         </section>
@@ -404,19 +452,12 @@ header .brand i {
 
         <section id="pending-queue">
             <div class="auth-container glass-card" style="max-width: 550px; text-align: center;">
-                <i class="fa-solid fa-hourglass-half" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
-                <h2>خطوة أخيرة: تفعيل حسابك الموحد</h2>
+                <i class="fa-solid fa-circle-check" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                <h2>تم إنشاء الحساب بنجاح</h2>
                 <p style="color: var(--text-secondary); margin: 15px 0 20px; line-height: 1.6; font-size:0.9rem;">
-                    مرحباً بك! لضمان أمان السيرفرات، يرجى اختيار المهندس المشرف لإرسال بياناتك إليه عبر الواتساب لتوليد كود التفعيل المشفّر والخاص بجهازك لمنع السرقة.
+                    يمكنك الآن الدخول مباشرة إلى صفحة المدرسين ومشاهدة المحاضرات بدون أي أكواد أو تفعيل.
                 </p>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <button class="btn btn-primary" style="background:#25D366;" onclick="sendDataToAdminWhatsApp('romany')">
-                        <i class="fa-brands fa-whatsapp"></i> تفعيل الحساب مع Eng. Romany Garges
-                    </button>
-                    <button class="btn btn-primary" style="background:#25D366;" onclick="sendDataToAdminWhatsApp('mina')">
-                        <i class="fa-brands fa-whatsapp"></i> تفعيل الحساب مع Eng. Mina Philoppes
-                    </button>
-                </div>
+                <button class="btn btn-primary" onclick="navigateTo('teachers')">الانتقال إلى المدرسين</button>
             </div>
         </section>
 
@@ -431,10 +472,10 @@ header .brand i {
 
                 <div class="video-box-master" id="playerContainerBox">
                     <div class="server-lock-screen" id="serverLockOverlay">
-                        <i class="fa-solid fa-lock"></i>
-                        <h3>السيرفر مغلق وغير مفعل!</h3>
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <h3>يرجى تسجيل الدخول</h3>
                         <p style="color: var(--text-secondary); margin-top: 8px; font-size: 0.85rem; max-width: 450px;">
-                            يتطلب هذا السيرفر التعليمي تفعيل كود الاشتراك الشامل. يرجى فتح القائمة الجانبية المنسدلة من الأعلى واضغط على زر <strong style="color:var(--accent);">"ادخل كودك هنا"</strong> لتفعيل الخدمة والاتصال الفوري.
+                            أنشئ حسابًا أو سجّل دخولك لبدء مشاهدة المحاضرات مباشرة بدون أكواد أو تفعيل.
                         </p>
                     </div>
 
@@ -451,20 +492,8 @@ header .brand i {
                 <button class="btn-back" onclick="navigateTo('login')"><i class="fa-solid fa-arrow-right"></i> خروج</button>
             </div>
             <div class="auth-container glass-card" style="max-width: 550px;">
-                <h3>لوحة تحكم مهندسي المنصة</h3>
-                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:15px;">توليد كود تشفير حصري مرتبط برقم الهاتف</p>
-                
-                <div class="form-group">
-                    <label>رقم هاتف الطالب بدقة كما سجل به</label>
-                    <input type="tel" class="form-control" id="admStudentPhone" placeholder="مثال: 01286716976">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="generateSecureStudentKey()">توليد الكود المشفر</button>
-                
-                <div id="generationResultBox" style="margin-top: 20px; display: none; padding: 15px; background: rgba(255,255,255,0.02); border:1px solid var(--accent); border-radius:8px; text-align:center;">
-                    <p style="font-size: 0.85rem;">الكود الحصري الخاص بهاتف هذا الطالب:</p>
-                    <h3 id="generatedKeyDisplay" style="color: var(--accent); margin: 10px 0; font-family: monospace; letter-spacing: 2px; user-select: text;">XXXX-XXXX</h3>
-                    <p style="font-size: 0.7rem; color: var(--danger);">لن يعمل هذا الكود مع أي حساب أو رقم هاتف آخر مطلقاً.</p>
-                </div>
+                <h3>لوحة إدارة المنصة</h3>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:15px;">المنصة الآن تعتمد على إنشاء الحساب فقط، بدون أكواد أو تفعيل.</p>
             </div>
         </section>
 
@@ -497,20 +526,6 @@ header .brand i {
 
     </main>
 
-    <div class="modal-overlay" id="activationModal">
-        <div class="modal-card glass-card">
-            <h3 style="margin-bottom: 8px;"><i class="fa-solid fa-key" style="color: var(--accent);"></i> تفعيل الاشتراك الشامل</h3>
-            <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 15px;">أدخل كود الاشتراك المستلم من المهندسين لتفعيل وحقن السيرفرات بالكامل.</p>
-            <div class="form-group">
-                <input type="text" class="form-control" id="activationKeyInput" style="text-align: center; font-family: monospace; letter-spacing: 2px;" placeholder="MSRK-XXXX-XXXX">
-            </div>
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                <button class="btn btn-primary" onclick="validateAndActivateServer()">تفعيل الآن</button>
-                <button class="btn btn-secondary" onclick="closeActivationModal()">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
     <footer>
         <div class="container">
             <p>&copy; 2026 منصة مسارك التعليمية. جميع الحقوق محفوظة ومحميّة برمجياً.</p>
@@ -522,15 +537,87 @@ header .brand i {
 
     <script>
         const defaultTeachers = [
-            { id: 1, name: 'مستر محمد صلاح', subject: 'اللغة العربية', img: 'https://i.postimg.cc/25K4nGbj/images-(10).jpg', desc: 'شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-            { id: 2, name: 'مستر وائل ميلاد', subject: 'اللغة الإنجليزية', img: 'https://i.postimg.cc/QCL1yMJS/images-(11).jpg', desc: 'تأسيس القواعد اللغوية والمهارات بأسلوب تفاعلي رائع لضمان التفوق والدرجة النهائية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-            { id: 3, name: 'مستر أحمد عادل', subject: 'التاريخ', img: 'https://i.postimg.cc/4yzVkTWr/images-(12).jpg', desc: 'ربط ممتع للأحداث التاريخية بالخرائط الذهنية بعيداً عن الحفظ التقليدي وبأسلوب شيق.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-            { id: 4, name: 'مستر أحمد السقا', subject: 'البرمجة والتطوير', img: 'https://i.postimg.cc/Zq2dWq2K/images-(13).jpg', desc: 'تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب الحقيقية خطوة بخطوة للطلاب.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-            { id: 5, name: 'مهندس كمال المراكبي', subject: 'الهندسة والتقنية', img: 'https://i.postimg.cc/PxnfVzqN/images-(4).jpg', desc: 'خبير في الشرح العملي والتقني مع منهج واضح ومبسط يركز على الفهم الحقيقي والتطبيق العملي.', stream: 'https://www.youtube.com/embed/Xg4Gx0uBnzE?si=dSM3tT7H6GHDT2SC' }
+            {
+                id: 1,
+                teacherName: 'مستر محمد صلاح',
+                name: 'مستر محمد صلاح',
+                subject: 'اللغة العربية',
+                img: 'https://i.postimg.cc/25K4nGbj/images-(10).jpg',
+                desc: 'شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو.',
+                stream: ''
+            },
+            {
+                id: 3,
+                teacherName: 'مستر أحمد عادل',
+                name: 'مستر أحمد عادل',
+                subject: 'التاريخ',
+                img: 'https://i.postimg.cc/4yzVkTWr/images-(12).jpg',
+                desc: 'ربط ممتع للأحداث التاريخية بالخرائط الذهنية.',
+                stream: ''
+            },
+            {
+                id: 4,
+                teacherName: 'مستر أحمد السقا',
+                name: 'مستر أحمد السقا',
+                subject: 'البرمجة والتطوير',
+                img: 'https://i.postimg.cc/Zq2dWq2K/images-(13).jpg',
+                desc: 'تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب.',
+                stream: 'https://www.youtube.com/embed/-6CSooIL9Lw?si=N73P38f4KPYmAKrx'
+            },
+            {
+                id: 5,
+                teacherName: 'مهندس كمال المراكبي',
+                name: 'مهندس كمال المراكبي',
+                subject: 'الهندسة والتقنية',
+                img: 'https://i.postimg.cc/PxnfVzqN/images-(4).jpg',
+                desc: 'خبير في الشرح العملي والتقني مع منهج واضح ومبسط.',
+                stream: 'https://www.youtube.com/embed/Xg4Gx0uBnzE?si=dSM3tT7H6GHDT2SC'
+            }
         ];
 
+        function buildTeacherCards(rawTeachers = [], rawVideos = []) {
+            const teachers = Array.isArray(rawTeachers) ? rawTeachers : [];
+            const videos = Array.isArray(rawVideos) ? rawVideos : [];
+
+            return teachers.map((teacher, index) => {
+                const teacherName = teacher.teacherName || teacher.name || `مدرس ${index + 1}`;
+                const matchedVideos = videos.filter(video => {
+                    const videoTeacher = `${video.teacherName || video.teacher || ''}`.trim().toLowerCase();
+                    const currentTeacher = teacherName.trim().toLowerCase();
+                    return videoTeacher && (videoTeacher === currentTeacher || currentTeacher.includes(videoTeacher) || videoTeacher.includes(currentTeacher));
+                });
+
+                const lectures = matchedVideos.length
+                    ? matchedVideos.map((video, videoIndex) => ({
+                        id: video.id || Date.now() + index * 100 + videoIndex,
+                        title: video.title || `محاضرة ${teacherName}`,
+                        desc: video.desc || `محاضرة مباشرة من ${teacherName}`,
+                        stream: video.stream || video.url || teacher.stream || ''
+                    }))
+                    : [
+                        {
+                            id: Date.now() + index + 1000,
+                            title: `محاضرة تعريفية | ${teacherName}`,
+                            desc: teacher.desc || 'محاضرة مباشرة ومناسبة للعرض داخل المنصة.',
+                            stream: teacher.stream || ''
+                        }
+                    ];
+
+                return {
+                    id: teacher.id || index + 1,
+                    teacherName,
+                    name: teacher.name || teacherName,
+                    subject: teacher.subject || 'عام',
+                    img: teacher.img || 'https://i.postimg.cc/PxnfVzqN/images-(4).jpg',
+                    desc: teacher.desc || 'محاضرة مباشرة ومناسبة للعرض داخل المنصة.',
+                    stream: teacher.stream || '',
+                    lectures
+                };
+            });
+        }
+
         const platformData = {
-            teachers: defaultTeachers
+            teachers: buildTeacherCards(defaultTeachers, [])
         };
 
         let currentSessionUser = null;
@@ -593,26 +680,82 @@ header .brand i {
                 return;
             }
 
-            grid.innerHTML = teachers.map(t => `
-                <div class="teacher-card glass-card">
-                    <div class="teacher-img-wrapper">
-                        <span class="teacher-badge">${t.subject}</span>
-                        <img src="${t.img}" alt="${t.name}">
-                    </div>
-                    <div class="teacher-info">
-                        <h3 style="font-size:1.15rem;">${t.name}</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.8rem; line-height:1.5; margin: 6px 0 12px;">${t.desc}</p>
-                        <button class="btn btn-primary" onclick="handleTeacherEntryClick(${t.id})" style="width: 100%;"><i class="fa-solid fa-play"></i> دخول المادة والشرح</button>
+            grid.innerHTML = teachers.map(teacher => `
+                <div class="lecture-section">
+                    <button class="teacher-toggle" onclick="toggleTeacherLectures(${teacher.id})">
+                        <img class="teacher-photo" src="${teacher.img}" alt="${teacher.teacherName || teacher.name}">
+                        <div style="flex: 1; text-align: right;">
+                            <div class="teacher-name">${teacher.teacherName || teacher.name}</div>
+                            <div class="teacher-subject">${teacher.subject}</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="lecture-cards" id="lectures-${teacher.id}" style="display: none;">
+                        ${(teacher.lectures || []).map(lecture => `
+                            <div class="teacher-card glass-card">
+                                <div class="teacher-img-wrapper">
+                                    <span class="teacher-badge">${teacher.subject}</span>
+                                    <img src="${teacher.img}" alt="${lecture.title}">
+                                </div>
+                                <div class="teacher-info">
+                                    <h3 style="font-size:1.05rem;">${lecture.title}</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.8rem; line-height:1.5; margin: 6px 0 12px;">${lecture.desc}</p>
+                                    <button class="btn btn-primary" onclick="handleTeacherEntryClick(${lecture.id})" style="width: 100%;"><i class="fa-solid fa-play"></i> دخول المحاضرة</button>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `).join('');
         }
 
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 2600);
+        }
+
+        function setButtonLoading(button, isLoading, text = '') {
+            if (!button) return;
+            if (isLoading) {
+                button.disabled = true;
+                button.dataset.originalText = button.innerHTML;
+                button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${text || 'جارٍ المعالجة...'}`;
+            } else {
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalText || button.innerHTML;
+            }
+        }
+
+        function toggleTeacherLectures(teacherId) {
+            const panel = document.getElementById(`lectures-${teacherId}`);
+            const button = document.querySelector(`.teacher-toggle[onclick="toggleTeacherLectures(${teacherId})"]`);
+            if (!panel || !button) return;
+            const isOpen = panel.style.display === 'grid';
+            panel.style.display = isOpen ? 'none' : 'grid';
+            button.classList.toggle('active', !isOpen);
+            const icon = button.querySelector('i');
+            if (icon) icon.className = isOpen ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up';
+        }
+
         function handleTeacherEntryClick(id) {
             if(!currentSessionUser) {
-                alert('يرجى إنشاء حساب أو تسجيل الدخول أولاً لتتمكن من فتح قاعات المشاهدة لمدرسي المنصة!');
+                showToast('يرجى إنشاء حساب أو تسجيل الدخول أولاً', 'error');
                 navigateTo('login');
             } else {
+                const lecture = platformData.teachers.flatMap(t => (t.lectures || []).map(l => ({ ...l, teacher: t }))).find(item => item.id === id);
+                if (lecture) {
+                    selectedTeacherRuntime = { ...lecture, name: lecture.teacher.teacherName || lecture.teacher.name, subject: lecture.teacher.subject, stream: lecture.stream, img: lecture.teacher.img };
+                    document.getElementById('roomTeacherName').innerText = lecture.title;
+                    document.getElementById('roomTeacherSubject').innerText = `${lecture.teacher.teacherName || lecture.teacher.name} • ${lecture.teacher.subject}`;
+                }
+                showToast('جاري فتح المحاضرة...', 'success');
                 navigateTo('subject-page', id);
             }
         }
@@ -620,56 +763,77 @@ header .brand i {
         // Student Register logic
         function processStudentRegistration(e) {
             e.preventDefault();
+            const button = e.target.querySelector('button[type="submit"]');
             const name = document.getElementById('regName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const pass = document.getElementById('regPass').value;
             const passConfirm = document.getElementById('regPassConfirm').value;
 
-            if(pass !== passConfirm) {
-                alert('خطأ! حقل كلمة المرور وتأكيد كلمة المرور غير متطابقين.');
+            if(!name || !phone || !pass || !passConfirm) {
+                showToast('يرجى ملء جميع الحقول أولاً', 'error');
                 return;
             }
 
-            const studentObj = { name, phone, password: pass, activated: false, activeKey: "" };
-            localStorage.setItem(`student_${phone}`, JSON.stringify(studentObj));
-            currentSessionUser = studentObj;
+            if(pass !== passConfirm) {
+                showToast('كلمة المرور وتأكيدها غير متطابقين', 'error');
+                return;
+            }
 
-            syncUiAndDrawerState();
-            navigateTo('pending-queue');
+            setButtonLoading(button, true, 'جاري إنشاء الحساب');
+            setTimeout(() => {
+                const studentObj = { name, phone, password: pass, activated: true, activeKey: 'account-ready' };
+                localStorage.setItem(`student_${phone}`, JSON.stringify(studentObj));
+                localStorage.setItem('masarak_logged_phone', phone);
+                currentSessionUser = studentObj;
+
+                syncUiAndDrawerState();
+                setButtonLoading(button, false);
+                showToast('تم إنشاء الحساب بنجاح', 'success');
+                navigateTo('pending-queue');
+            }, 500);
         }
 
         function sendDataToAdminWhatsApp(adminName) {
             if(!currentSessionUser) return;
-            const adminPhone = adminName === 'romany' ? '201286716976' : '201205669854';
-            const message = `أنا قمت بالتسجيل في منصة مسارك وأريد الحصول على كود اشتراكي المشفّر الحصري.\n\nبياناتي المسجلة:\n- اسم الطالب: ${currentSessionUser.name}\n- رقم الهاتف: ${currentSessionUser.phone}`;
-            window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`, '_blank');
-            alert('تم تجهيز بياناتك وفتح الواتساب. بمجرد استلام الكود، افتح القائمة الجانبية واضغط "ادخل كودك هنا" لفتح جميع المحاضرات.');
-            navigateTo('login');
+            navigateTo('teachers');
+            showToast('تم إنشاء الحساب بنجاح. يمكنك الآن الدخول مباشرة إلى المحاضرات', 'success');
         }
 
         // Student Login logic
         function processStudentLogin(e) {
             e.preventDefault();
+            const button = e.target.querySelector('button[type="submit"]');
             const phone = document.getElementById('loginPhone').value.trim();
             const pass = document.getElementById('loginPass').value;
 
-            const storedData = localStorage.getItem(`student_${phone}`);
-            if(!storedData) {
-                alert('رقم الهاتف هذا غير مسجل! يرجى إنشاء حساب جديد.');
+            if(!phone || !pass) {
+                showToast('يرجى إدخال رقم الهاتف وكلمة المرور', 'error');
                 return;
             }
 
-            const student = JSON.parse(storedData);
-            if(student.password !== pass) {
-                alert('خطأ! كلمة المرور غير صحيحة.');
-                return;
-            }
+            setButtonLoading(button, true, 'جاري تسجيل الدخول');
+            setTimeout(() => {
+                const storedData = localStorage.getItem(`student_${phone}`);
+                if(!storedData) {
+                    setButtonLoading(button, false);
+                    showToast('رقم الهاتف هذا غير مسجل، يرجى إنشاء حساب جديد', 'error');
+                    return;
+                }
 
-            currentSessionUser = student;
-            localStorage.setItem('masarak_logged_phone', phone);
-            syncUiAndDrawerState();
-            alert(`أهلاً بك يا ${student.name}، تم تسجيل الدخول بنجاح.`);
-            navigateTo('teachers');
+                const student = JSON.parse(storedData);
+                if(student.password !== pass) {
+                    setButtonLoading(button, false);
+                    showToast('كلمة المرور غير صحيحة', 'error');
+                    return;
+                }
+
+                currentSessionUser = student;
+                localStorage.setItem('masarak_logged_phone', phone);
+                syncUiAndDrawerState();
+                setButtonLoading(button, false);
+                showToast(`أهلاً بك يا ${student.name}`, 'success');
+                navigateTo('teachers');
+            }, 500);
         }
 
         function checkExistingSession() {
@@ -691,7 +855,6 @@ header .brand i {
             const drawerProfileContainer = document.getElementById('drawerProfileContainer');
 
             if(currentSessionUser) {
-                // Top Header updates to small cool dynamic layout
                 headerAuthBox.innerHTML = `
                     <div style="display:flex; align-items:center; gap:8px;">
                         <span style="font-size:0.75rem; color:var(--accent); font-weight:600;"><i class="fa-solid fa-circle-user"></i> ${currentSessionUser.name.split(' ')[0]}</span>
@@ -699,33 +862,24 @@ header .brand i {
                     </div>
                 `;
 
-                // Calculate activation state status 
-                const validToken = "MSRK-" + btoa(currentSessionUser.phone).substring(0, 8).toUpperCase();
-                const isActive = (currentSessionUser.activated && currentSessionUser.activeKey === validToken);
-
-                // Injecting premium structural dashboard card inside sidebar drawer top
                 drawerProfileContainer.innerHTML = `
                     <div class="drawer-profile-card">
                         <div class="drawer-avatar"><i class="fa-solid fa-user-graduate"></i></div>
                         <h4>${currentSessionUser.name}</h4>
                         <p>${currentSessionUser.phone}</p>
-                        <span class="status-pill ${isActive ? 'active' : 'locked'}">
-                            <i class="fa-solid ${isActive ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> 
-                            ${isActive ? 'الحساب مفعّل ونشط' : 'السيرفرات مغلقة'}
+                        <span class="status-pill active">
+                            <i class="fa-solid fa-circle-check"></i> الحساب جاهز
                         </span>
-                        <button class="btn btn-primary drawer-activate-btn" style="width:100%;" onclick="openActivationModal()">
-                            <i class="fa-solid fa-key"></i> ادخل كودك هنا
-                        </button>
+                        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--text-secondary);">يمكنك الدخول مباشرة إلى المحاضرات بدون أكواد أو تفعيل.</p>
                     </div>
                 `;
             } else {
-                // Fallback default state
                 headerAuthBox.innerHTML = `<button class="btn btn-primary" onclick="navigateTo('login')"><i class="fa-solid fa-lock"></i> دخول / تسجيل</button>`;
                 drawerProfileContainer.innerHTML = `
                     <div class="drawer-profile-card">
                         <div class="drawer-avatar" style="background:rgba(255,255,255,0.05); color:var(--text-secondary);"><i class="fa-solid fa-user-secret"></i></div>
                         <h4>طالب زائر غير مسجل</h4>
-                        <p style="margin-bottom:0;">سجل دخولك لتفعيل حصص المدرسين</p>
+                        <p style="margin-bottom:0;">سجل دخولك لبدء مشاهدة المحاضرات مباشرة</p>
                     </div>
                 `;
             }
@@ -735,18 +889,24 @@ header .brand i {
             localStorage.removeItem('masarak_logged_phone');
             currentSessionUser = null;
             syncUiAndDrawerState();
-            alert('تم تسجيل الخروج بنجاح.');
+            showToast('تم تسجيل الخروج بنجاح', 'success');
             navigateTo('home');
         }
 
         // Streamroom Core Loader Engine
         function loadStreamRoom(id) {
-            const teacher = platformData.teachers.find(t => t.id === id);
-            if(!teacher) return;
+            const lecture = platformData.teachers.flatMap(t => (t.lectures || []).map(l => ({ ...l, teacher: t }))).find(item => item.id === id);
+            if(!lecture) return;
 
-            selectedTeacherRuntime = teacher;
-            document.getElementById('roomTeacherName').innerText = teacher.name;
-            document.getElementById('roomTeacherSubject').innerText = `منصة الشرح والعمليات لمادة: ${teacher.subject}`;
+            selectedTeacherRuntime = {
+                ...lecture,
+                name: lecture.teacher.teacherName || lecture.teacher.name,
+                subject: lecture.teacher.subject,
+                stream: lecture.stream,
+                img: lecture.teacher.img
+            };
+            document.getElementById('roomTeacherName').innerText = lecture.title;
+            document.getElementById('roomTeacherSubject').innerText = `${lecture.teacher.teacherName || lecture.teacher.name} • ${lecture.teacher.subject}`;
             document.getElementById('videoLiveWatermark').innerText = `${currentSessionUser.name} | ${currentSessionUser.phone}`;
 
             evalUserServerSubscriptionStatus();
@@ -756,70 +916,52 @@ header .brand i {
             const lockScreen = document.getElementById('serverLockOverlay');
             const videoElement = document.getElementById('secureVideoEngine');
 
-            if(!currentSessionUser) return;
-            const validToken = "MSRK-" + btoa(currentSessionUser.phone).substring(0, 8).toUpperCase();
-
-            if(currentSessionUser.activated && currentSessionUser.activeKey === validToken) {
-                lockScreen.style.display = 'none';
-                const streamUrl = selectedTeacherRuntime?.stream || '';
-
-                if (streamUrl && /(youtube\.com\/embed|youtube\.com\/watch|youtu\.be|vimeo|player|html)/i.test(streamUrl)) {
-                    if (videoElement) {
-                        videoElement.remove();
-                    }
-
-                    let videoWrapper = document.getElementById('videoWrapper');
-                    if (!videoWrapper) {
-                        videoWrapper = document.createElement('div');
-                        videoWrapper.id = 'videoWrapper';
-                        videoWrapper.style.width = '100%';
-                        videoWrapper.style.minHeight = '315px';
-                        videoWrapper.style.position = 'relative';
-                        document.getElementById('playerContainerBox').appendChild(videoWrapper);
-                    }
-
-                    playUniversalVideoPlayer(streamUrl);
-                    return;
-                }
-
-                if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(streamUrl);
-                    hls.attachMedia(videoElement);
-                } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                    videoElement.src = streamUrl;
-                }
-            } else {
-                videoElement.src = "";
-                lockScreen.style.display = 'flex';
+            if(!currentSessionUser) {
+                if (videoElement) videoElement.src = "";
+                if (lockScreen) lockScreen.style.display = 'flex';
+                return;
             }
-        }
 
-        // Modals interface triggers
-        function openActivationModal() { closeDrawer(); document.getElementById('activationModal').classList.add('show'); }
-        function closeActivationModal() { document.getElementById('activationModal').classList.remove('show'); }
+            if (lockScreen) lockScreen.style.display = 'none';
+            const streamUrl = selectedTeacherRuntime?.stream || '';
+            if (videoElement) {
+                videoElement.remove();
+            }
 
-        // Code Matcher Engine
-        function validateAndActivateServer() {
-            const keyInput = document.getElementById('activationKeyInput').value.trim();
-            if(!keyInput) return;
-
-            const expectedSecretToken = "MSRK-" + btoa(currentSessionUser.phone).substring(0, 8).toUpperCase();
-
-            if(keyInput === expectedSecretToken) {
-                currentSessionUser.activated = true;
-                currentSessionUser.activeKey = keyInput;
-                localStorage.setItem(`student_${currentSessionUser.phone}`, JSON.stringify(currentSessionUser));
-                
-                closeActivationModal();
-                syncUiAndDrawerState();
-                
-                if(document.getElementById('subject-page').classList.contains('active-section')) {
-                    evalUserServerSubscriptionStatus();
+            if (streamUrl && /(youtube\.com\/embed|youtube\.com\/watch|youtu\.be|vimeo|player|html)/i.test(streamUrl)) {
+                let videoWrapper = document.getElementById('videoWrapper');
+                if (!videoWrapper) {
+                    videoWrapper = document.createElement('div');
+                    videoWrapper.id = 'videoWrapper';
+                    videoWrapper.className = 'video-wrapper-player';
+                    videoWrapper.style.position = 'relative';
+                    document.getElementById('playerContainerBox').appendChild(videoWrapper);
+                } else {
+                    videoWrapper.className = 'video-wrapper-player';
                 }
-                alert('تهانينا يا بطل! تم التحقق وتطابق الكود مع رقم هاتفك الموحد بنجاح، وتم تفعيل المنصة وفتح جميع محاضرات المعلمين فوراً.');
+
+                playUniversalVideoPlayer(streamUrl);
+                return;
+            }
+
+            let videoWrapper = document.getElementById('videoWrapper');
+            if (!videoWrapper) {
+                videoWrapper = document.createElement('div');
+                videoWrapper.id = 'videoWrapper';
+                videoWrapper.className = 'video-wrapper-player';
+                videoWrapper.style.position = 'relative';
+                document.getElementById('playerContainerBox').appendChild(videoWrapper);
             } else {
-                alert('خطأ في حماية النظام: كود التفعيل غير صالح، أو تم توليده لجهاز آخر! الأكواد مشفرة لتعمل على حساب واحد فقط لمنع السرقة.');
+                videoWrapper.className = 'video-wrapper-player';
+            }
+
+            videoWrapper.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100%;color:#fff;font-size:0.95rem;">جارٍ تشغيل المحاضرة...</div>';
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(videoElement);
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = streamUrl;
             }
         }
 
@@ -831,14 +973,6 @@ header .brand i {
             } else if(masterPass !== null) {
                 alert('صلاحية مرفوضة!');
             }
-        }
-
-        function generateSecureStudentKey() {
-            const phoneInput = document.getElementById('admStudentPhone').value.trim();
-            if(!phoneInput) return;
-            const token = "MSRK-" + btoa(phoneInput).substring(0, 8).toUpperCase();
-            document.getElementById('generationResultBox').style.display = 'block';
-            document.getElementById('generatedKeyDisplay').innerText = token;
         }
 
         // Anti Cyber hacking shortcuts blocker
@@ -879,6 +1013,7 @@ function playUniversalVideoPlayer(url) {
         iframe.src = cleanUrl;
         iframe.style.width = '100%';
         iframe.style.height = '100%';
+        iframe.style.minHeight = '320px';
         iframe.style.border = 'none';
         iframe.style.display = 'block';
         // تفعيل كامل الصلاحيات لملء الشاشة والتشغيل التلقائي لكل السيرفرات الخارجية
@@ -918,7 +1053,7 @@ function playUniversalVideoPlayer(url) {
 // تحميل المدرسين من ملف data.json المحلي
 // =========================================================
 
-const DATA_JSON_URLS = ['/api/data', './data.json', 'data.json'];
+const DATA_JSON_URLS = ['/api/data', './data.json', 'data.json', './data.com', 'data.com'];
 
 async function fetchCloudTeachers() {
     for (const url of DATA_JSON_URLS) {
@@ -926,9 +1061,10 @@ async function fetchCloudTeachers() {
             const response = await fetch(url + '?t=' + new Date().getTime());
             if (!response.ok) continue;
 
-            const data = await response.json();
-            if (Array.isArray(data.teachers) && data.teachers.length > 0) {
-                platformData.teachers = data.teachers;
+            const text = await response.text();
+            const data = JSON.parse(text);
+            if ((Array.isArray(data.teachers) && data.teachers.length > 0) || (Array.isArray(data.videos) && data.videos.length > 0)) {
+                platformData.teachers = buildTeacherCards(data.teachers || [], data.videos || []);
                 if (typeof renderTeachers === 'function') {
                     renderTeachers();
                 }
