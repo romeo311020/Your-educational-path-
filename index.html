@@ -121,7 +121,7 @@
         
         .status-pill { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; }
         .status-pill.locked { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); }
-        .status-pill.active { background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid var(--success); box-shadow: 0 0 10px نظامرير(34,197,94,0.2); }
+        .status-pill.active { background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid var(--success); box-shadow: 0 0 10px rgba(34,197,94,0.2); }
 
         .drawer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
         .drawer-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
@@ -311,7 +311,7 @@ header .brand i {
                     <i class="fa-solid fa-user-shield"></i>
                     <div class="logo-text">
                         <h1>مسارك التعليمي</h1>
-                        <span<</span>
+                        <span>نظام حماية مشفر</span>
                     </div>
                 </div>
             </div>
@@ -521,13 +521,16 @@ header .brand i {
     </footer>
 
     <script>
+        const defaultTeachers = [
+            { id: 1, name: 'مستر محمد صلاح', subject: 'اللغة العربية', img: 'https://i.postimg.cc/25K4nGbj/images-(10).jpg', desc: 'شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
+            { id: 2, name: 'مستر وائل ميلاد', subject: 'اللغة الإنجليزية', img: 'https://i.postimg.cc/QCL1yMJS/images-(11).jpg', desc: 'تأسيس القواعد اللغوية والمهارات بأسلوب تفاعلي رائع لضمان التفوق والدرجة النهائية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
+            { id: 3, name: 'مستر أحمد عادل', subject: 'التاريخ', img: 'https://i.postimg.cc/4yzVkTWr/images-(12).jpg', desc: 'ربط ممتع للأحداث التاريخية بالخرائط الذهنية بعيداً عن الحفظ التقليدي وبأسلوب شيق.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
+            { id: 4, name: 'مستر أحمد السقا', subject: 'البرمجة والتطوير', img: 'https://i.postimg.cc/Zq2dWq2K/images-(13).jpg', desc: 'تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب الحقيقية خطوة بخطوة للطلاب.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
+            { id: 5, name: 'مهندس كمال المراكبي', subject: 'الهندسة والتقنية', img: 'https://i.postimg.cc/PxnfVzqN/images-(4).jpg', desc: 'خبير في الشرح العملي والتقني مع منهج واضح ومبسط يركز على الفهم الحقيقي والتطبيق العملي.', stream: 'https://www.youtube.com/embed/Xg4Gx0uBnzE?si=dSM3tT7H6GHDT2SC' }
+        ];
+
         const platformData = {
-            teachers: [
-                { id: 1, name: 'مستر محمد صلاح', subject: 'اللغة العربية', img: 'https://i.postimg.cc/25K4nGbj/images-(10).jpg', desc: 'شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-                { id: 2, name: 'مستر وائل ميلاد', subject: 'اللغة الإنجليزية', img: 'https://i.postimg.cc/QCL1yMJS/images-(11).jpg', desc: 'تأسيس القواعد اللغوية والمهارات بأسلوب تفاعلي رائع لضمان التفوق والدرجة النهائية.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-                { id: 3, name: 'مستر أحمد عادل', subject: 'التاريخ', img: 'https://i.postimg.cc/4yzVkTWr/images-(12).jpg', desc: 'ربط ممتع للأحداث التاريخية بالخرائط الذهنية بعيداً عن الحفظ التقليدي وبأسلوب شيق.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' },
-                { id: 4, name: 'مستر أحمد السقا', subject: 'البرمجة والتطوير', img: 'https://i.postimg.cc/Zq2dWq2K/images-(13).jpg', desc: 'تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب الحقيقية خطوة بخطوة للطلاب.', stream: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' }
-            ]
+            teachers: defaultTeachers
         };
 
         let currentSessionUser = null;
@@ -582,7 +585,15 @@ header .brand i {
         // Render Teachers list data
         function renderTeachers() {
             const grid = document.getElementById('teachersGridBox');
-            grid.innerHTML = platformData.teachers.map(t => `
+            if (!grid) return;
+
+            const teachers = Array.isArray(platformData.teachers) ? platformData.teachers : [];
+            if (!teachers.length) {
+                grid.innerHTML = '<div class="glass-card" style="padding:20px; text-align:center;">لا توجد بيانات مدرسين متاحة حالياً.</div>';
+                return;
+            }
+
+            grid.innerHTML = teachers.map(t => `
                 <div class="teacher-card glass-card">
                     <div class="teacher-img-wrapper">
                         <span class="teacher-badge">${t.subject}</span>
@@ -750,12 +761,33 @@ header .brand i {
 
             if(currentSessionUser.activated && currentSessionUser.activeKey === validToken) {
                 lockScreen.style.display = 'none';
+                const streamUrl = selectedTeacherRuntime?.stream || '';
+
+                if (streamUrl && /(youtube\.com\/embed|youtube\.com\/watch|youtu\.be|vimeo|player|html)/i.test(streamUrl)) {
+                    if (videoElement) {
+                        videoElement.remove();
+                    }
+
+                    let videoWrapper = document.getElementById('videoWrapper');
+                    if (!videoWrapper) {
+                        videoWrapper = document.createElement('div');
+                        videoWrapper.id = 'videoWrapper';
+                        videoWrapper.style.width = '100%';
+                        videoWrapper.style.minHeight = '315px';
+                        videoWrapper.style.position = 'relative';
+                        document.getElementById('playerContainerBox').appendChild(videoWrapper);
+                    }
+
+                    playUniversalVideoPlayer(streamUrl);
+                    return;
+                }
+
                 if (Hls.isSupported()) {
                     const hls = new Hls();
-                    hls.loadSource(selectedTeacherRuntime.stream);
+                    hls.loadSource(streamUrl);
                     hls.attachMedia(videoElement);
                 } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                    videoElement.src = selectedTeacherRuntime.stream;
+                    videoElement.src = streamUrl;
                 }
             } else {
                 videoElement.src = "";
@@ -883,47 +915,37 @@ function playUniversalVideoPlayer(url) {
     }
 }
 // =========================================================
-// كود الحذف التلقائي والمزامنة مع ملف data.json السحابي
+// تحميل المدرسين من ملف data.json المحلي
 // =========================================================
 
-// 1. تصفير ومسح جميع المدرسين الثابتين المكتوبين في الكود فوراً
-if (typeof platformData !== 'undefined') {
-    platformData.teachers = []; 
-}
+const DATA_JSON_URLS = ['/api/data', './data.json', 'data.json'];
 
-// ⚠️ ضع هنا رابط ملف data.json المباشر (Raw) من جيت هاب لتعمل المزامنة
-const GITHUB_JSON_URL = "YOUR_GITHUB_JSON_URL_HERE"; 
-
-// 2. دالة جلب البيانات السحابية وضخها في الموقع
 async function fetchCloudTeachers() {
-    if (GITHUB_JSON_URL.includes("YOUR_GITHUB_JSON_URL_HERE")) {
-        console.warn("برجاء وضع رابط ملف data.json المباشر من جيت هاب ليتم عرض المدرسين.");
-        return;
-    }
-    
-    try {
-        // جلب البيانات مع إضافة تيمبستامب لمنع المتصفح من تخزين النسخة القديمة (Anti-Cache)
-        const response = await fetch(GITHUB_JSON_URL + '?t=' + new Date().getTime());
-        if (response.ok) {
+    for (const url of DATA_JSON_URLS) {
+        try {
+            const response = await fetch(url + '?t=' + new Date().getTime());
+            if (!response.ok) continue;
+
             const data = await response.json();
-            
-            // حقن المدرسين القادمين من data.json فقط في المصفوفة الأصلية لكودك
-            platformData.teachers = data.teachers || [];
-            
-            // إعادة تشغيل دالة بناء الكروت الأصلية الموجودة في كودك ليظهروا على الشاشة
-            if (typeof renderTeachers === 'function') {
-                renderTeachers();
-            } else if (typeof initPlatform === 'function') {
-                initPlatform();
+            if (Array.isArray(data.teachers) && data.teachers.length > 0) {
+                platformData.teachers = data.teachers;
+                if (typeof renderTeachers === 'function') {
+                    renderTeachers();
+                }
+                return;
             }
+        } catch (error) {
+            console.warn(`تعذر تحميل المدرسين من ${url}:`, error);
         }
-    } catch (error) {
-        console.error("حدث خطأ أثناء مزامنة المدرسين من جيت هاب:", error);
+    }
+
+    if (typeof renderTeachers === 'function') {
+        renderTeachers();
     }
 }
 
-// 3. تشغيل المزامنة تلقائياً بمجرد فتح الطالب للموقع
 window.addEventListener('DOMContentLoaded', () => {
+    renderTeachers();
     fetchCloudTeachers();
 });
     </script>
