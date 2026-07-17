@@ -1,39 +1,46 @@
 {
+  "allowed_keys": {},
+  "videos": [],
   "teachers": [
     {
-      "name": "الأستاذ أحمد مصطفى",
-      "subject": "اللغة العربية (حصص التأسيس)",
-      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=500",
-      "lectures": [
-        {
-          "title": "المحاضرة الأولى: أسس النحو والبلاغة",
-          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
-        },
-        {
-          "title": "المحاضرة الثانية: كبسولة الإعراب السريعة",
-          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
-        }
-      ]
+      "id": 1,
+      "name": "مستر محمد صلاح",
+      "subject": "اللغة العربية",
+      "img": "https://i.postimg.cc/25K4nGbj/images-(10).jpg",
+      "desc": "شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.",
+      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
     },
     {
-      "name": "الأستاذ محمد علي",
+      "id": 2,
+      "name": "مستر وائل ميلاد",
       "subject": "اللغة الإنجليزية",
-      "image": "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=500",
-      "lectures": [
-        {
-          "title": "المحاضرة الأولى: قواعد الأزمنة الشاملة",
-          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
-        }
-      ]
-    }
-  ],
-  "students": [
+      "img": "https://i.postimg.cc/QCL1yMJS/images-(11).jpg",
+      "desc": "تأسيس القواعد اللغوية والمهارات بأسلوب تفاعلي رائع لضمان التفوق والدرجة النهائية.",
+      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    },
     {
-      "name": "طالب تجريبي 1",
-      "key": "MSRK-DEMO123",
-      "date": "2026/07/11"
+      "id": 3,
+      "name": "مستر أحمد عادل",
+      "subject": "التاريخ",
+      "img": "https://i.postimg.cc/4yzVkTWr/images-(12).jpg",
+      "desc": "ربط ممتع للأحداث التاريخية بالخرائط الذهنية بعيداً عن الحفظ التقليدي وبأسلوب شيق.",
+      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    },
+    {
+      "id": 4,
+      "name": "مستر أحمد السقا",
+      "subject": "البرمجة والتطوير",
+      "img": "https://i.postimg.cc/Zq2dWq2K/images-(13).jpg",
+      "desc": "تأسيس وبناء لغات البرمجة وتطوير تطبيقات ومواقع الويب الحقيقية خطوة بخطوة للطلاب.",
+      "stream": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    },
+    {
+      "id": 5,
+      "name": "مهندس كمال المراكبي",
+      "subject": "الهندسة والتقنية",
+      "img": "https://i.postimg.cc/PxnfVzqN/images-(4).jpg",
+      "desc": "خبير في الشرح العملي والتقني مع منهج واضح ومبسط يركز على الفهم الحقيقي والتطبيق العملي.",
+      "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=dSM3tT7H6GHDT2SC"
     }
-  ],
-  "allowed_keys": {},
-  "videos": []
+  ]
 }
