@@ -21,18 +21,19 @@
   "teachers": [
     {
       "id": 1,
-      "name": "مستر محمد صلاح",
+      "name": "Mr Said El Sayed",
       "subject": "اللغة العربية",
-      "img": "https://i.postimg.cc/25K4nGbj/images-(10).jpg",
-      "desc": "شرح فصيح ومبسط لكافة فروع اللغة العربية والبلاغة والنحو بطرق مبتكرة وحصرية.",
-      "stream": ""
+      "img": "https://i.postimg.cc/xd0XQG80/channels4-profile-(1).jpg",
+      "desc": "
+اقوى كورس تأسيسي برمجة لأولى وثانية ثانوي 2026 | هتبدأ صح من الصفر وتفهم البرمجة بسهولة.",
+      "stream": "https://www.youtube.com/embed/jbKiWFu4SEQ?si=0pKjNMEidlV3RCFH&amp;start=54"
     },
     {
       "id": 3,
       "name": "Eng. Kareem Sultan",
       "subject": "برمجة و علوم حاسب",
       "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
-      "desc": "Programming & AI Teacher.",
+      "desc": "خطتنا في الكورس التأسيسي | Programming & AI | بكالوريا 2027 | مع م. كريم سلطان.",
       "stream": "https://www.youtube.com/embed/EdWDtWwGYm0?si=oSRya-PVO20KdCqN&amp;start=54"
     },
     {
@@ -50,6 +51,14 @@
       "img": "https://i.postimg.cc/PxnfVzqN/images-(4).jpg",
       "desc": "خبير في الشرح العملي والتقني مع منهج واضح ومبسط يركز على الفهم الحقيقي والتطبيق العملي.",
       "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=7iSkVCR9bRWENbxf"
+ },
+    {
+      "id": 3,
+      "name": "Eng. Kareem Sultan",
+      "subject": برمجة و علوم حاسب"",
+      "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
+      "desc": "Lecture 1 (Programming & AI) | الكورس التأسيسي | بكالوريا 2027 | مع م. كريم سلطان.",
+      "stream": "https://www.youtube.com/embed/6sKrRe515hs?si=a0Z5XNJ6wWKbpsYa&amp;start=54"
     }
   ]
 }
