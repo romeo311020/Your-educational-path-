@@ -19,7 +19,22 @@
     }
   ],
   "teachers": [
-    
+    {
+      "id": 1,
+      "name": "Mr Said El Sayed",
+      "subject": "برمجة و ذكاء اصطناعي",
+      "img": "https://i.postimg.cc/xd0XQG80/channels4-profile-(1).jpg",
+      "desc": "اقوي كورس تاسيس برمجة و ذكاء اصطناعي ل مستر سيد السعيد.",
+      "stream": "https://www.youtube.com/embed/jbKiWFu4SEQ?si=0pKjNMEidlV3RCFH&amp;start=54"
+    },
+    {
+      "id": 3,
+      "name": "Eng. Kareem Sultan",
+      "subject": "برمجة و علوم حاسب الخطة ف الكورسات",
+      "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
+      "desc": "خطتنا في الكورس التأسيسي | Programming & AI | بكالوريا 2027 | مع م. كريم سلطان.",
+      "stream": "https://www.youtube.com/embed/EdWDtWwGYm0?si=oSRya-PVO20KdCqN&amp;start=54"
+    },
     {
       "id": 4,
       "name": "مستر أحمد السقا",
@@ -43,14 +58,6 @@
       "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
       "desc": "Lecture 1 (Programming & AI) | الكورس التأسيسي | بكالوريا 2027 | مع م. كريم سلطان.",
       "stream": "https://www.youtube.com/embed/6sKrRe515hs?si=a0Z5XNJ6wWKbpsYa&amp;start=54"
-  },
-    {
-      "id": 6,
-      "name": "مهندس كمال المراكبي المحاضرة الثانية",
-      "subject": "الهندسة وذكاء اصطناعي",
-      "img": "https://i.postimg.cc/C1DSFYMt/662685705-25899530733060351-323007964996707916-n.jpg",
-      "desc": "المحاضرة الثانية / كمال المراكبي .",
-      "stream": "https://www.youtube.com/embed/P5exsaqpceU?si=yoqGzLdmlGKm8O95"
+    }
+  ]
 }
-      ]
-  
