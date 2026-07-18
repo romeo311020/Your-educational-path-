@@ -596,10 +596,36 @@ header .brand i {
                     }))
                     : [
                         {
-                            id: Date.now() + index + 1000,
-                            title: `محاضرة تعريفية | ${teacherName}`,
-                            desc: teacher.desc || 'محاضرة مباشرة ومناسبة للعرض داخل المنصة.',
-                            stream: teacher.stream || ''
+                           let lectures = [];
+
+if (Array.isArray(teacher.stream)) {
+
+    lectures = teacher.stream.map((item, i) => ({
+        id: Date.now() + index * 100 + i,
+        title: item.title || `المحاضرة ${i + 1}`,
+        desc: teacher.desc || "",
+        stream: item.url
+    }));
+
+} else if (matchedVideos.length) {
+
+    lectures = matchedVideos.map((video, videoIndex) => ({
+        id: video.id || Date.now() + index * 100 + videoIndex,
+        title: video.title || `محاضرة ${teacherName}`,
+        desc: video.desc || teacher.desc,
+        stream: video.stream || video.url
+    }));
+
+} else {
+
+    lectures = [{
+        id: Date.now() + index + 1000,
+        title: "المحاضرة الأولى",
+        desc: teacher.desc || "محاضرة مباشرة ومناسبة للعرض داخل المنصة.",
+        stream: teacher.stream || ""
+    }];
+
+}
                         }
                     ];
 
