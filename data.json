@@ -43,6 +43,13 @@
       "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
       "desc": "Lecture 1 (Programming & AI) | الكورس التأسيسي | بكالوريا 2027 | مع م. كريم سلطان.",
       "stream": "https://www.youtube.com/embed/6sKrRe515hs?si=a0Z5XNJ6wWKbpsYa&amp;start=54"
-    }
+  },
+    {
+      "id": 5,
+      "name": "مهندس كمال المراكبي المحاضرة الثانية",
+      "subject": "الهندسة وذكتء اصطناعي",
+      "img": "https://i.postimg.cc/C1DSFYMt/662685705-25899530733060351-323007964996707916-n.jpg",
+      "desc": "المحاضرة الثانية / كمال المراكبي .",
+      "stream": "https://www.youtube.com/embed/P5exsaqpceU?si=yoqGzLdmlGKm8O95"    }
   ]
 }
