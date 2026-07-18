@@ -21,11 +21,11 @@
   "teachers": [
     {
       "id": 1,
-      "name": "Mr Said El Sayed",
+      "name": "كمال المراكبي المحاضرة الثانية",
       "subject": "برمجة و ذكاء اصطناعي",
-      "img": "https://i.postimg.cc/xd0XQG80/channels4-profile-(1).jpg",
-      "desc": "اقوي كورس تاسيس برمجة و ذكاء اصطناعي ل مستر سيد السعيد.",
-      "stream": "https://www.youtube.com/embed/jbKiWFu4SEQ?si=0pKjNMEidlV3RCFH&amp;start=54"
+      "img": "https://i.postimg.cc/C1DSFYMt/662685705-25899530733060351-323007964996707916-n.jpg",
+      "desc": "اقوي كورس تاسيس برمجة و ذكاء اصطناعي ل مستر كمال المراكبي .",
+      "stream": "https://www.youtube.com/embed/P5exsaqpceU?si=_36-x60vYDbGi--4" title="
     },
     {
       "id": 3,
