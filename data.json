@@ -28,14 +28,6 @@
       "stream": "https://www.youtube.com/embed/jbKiWFu4SEQ?si=0pKjNMEidlV3RCFH&amp;start=54"
     },
     {
-      "id": 3,
-      "name": "Eng. Kareem Sultan",
-      "subject": "برمجة و علوم حاسب الخطة ف الكورسات",
-      "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
-      "desc": "خطتنا في الكورس التأسيسي | Programming & AI | بكالوريا 2027 | مع م. كريم سلطان.",
-      "stream": "https://www.youtube.com/embed/EdWDtWwGYm0?si=oSRya-PVO20KdCqN&amp;start=54"
-    },
-    {
       "id": 4,
       "name": "مستر أحمد السقا",
       "subject": "البرمجة والتطوير",
@@ -52,12 +44,22 @@
       "stream": "https://www.youtube.com/embed/Xg4Gx0uBnzE?si=7iSkVCR9bRWENbxf"
  },
     {
-      "id": 3,
-      "name": "Eng. Kareem Sultan",
-      "subject": " البرمجة و علوم حاسب المحاضرة الاولي",
-      "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
-      "desc": "Lecture 1 (Programming & AI) | الكورس التأسيسي | بكالوريا 2027 | مع م. كريم سلطان.",
-      "stream": "https://www.youtube.com/embed/6sKrRe515hs?si=a0Z5XNJ6wWKbpsYa&amp;start=54"
+ {
+  "id": 6,
+  "name": "Eng. Kareem Sultan",
+  "subject": "برمجة و علوم الحاسب",
+  "img": "https://i.postimg.cc/sfSsnQDX/channels4-profile.jpg",
+  "desc": "كورس تاسيس ل مادة البرمجة ( باكروليا 2027 )",
+
+  "stream": [
+    {
+      "title": "المحاضرة الأولى",
+      "url": "https://www.youtube.com/embed/EdWDtWwGYm0?si=oSRya-PVO20KdCqN&amp;start=54"
+    },
+    {
+      "title": "المحاضرة الثانية",
+      "url": "https://www.youtube.com/embed/6sKrRe515hs?si=a0Z5XNJ6wWKbpsYa&amp;start=54"
     }
   ]
 }
+    
