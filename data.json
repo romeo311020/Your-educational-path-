@@ -19,14 +19,7 @@
     }
   ],
   "teachers": [
-    {
-      "id": 1,
-      "name": "Mr Said El Sayed",
-      "subject": "برمجة و ذكاء اصطناعي",
-      "img": "https://i.postimg.cc/xd0XQG80/channels4-profile-(1).jpg",
-      "desc": "اقوي كورس تاسيس برمجة و ذكاء اصطناعي ل مستر سيد السعيد.",
-      "stream": "https://www.youtube.com/embed/jbKiWFu4SEQ?si=0pKjNMEidlV3RCFH&amp;start=54"
-    },
+    
     {
       "id": 4,
       "name": "مستر أحمد السقا",
